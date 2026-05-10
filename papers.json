@@ -1,0 +1,395 @@
+{
+  "papers": [
+    {
+      "id": "39578870",
+      "title": "Ileal microbial microbiome and its secondary bile acids modulate susceptibility to nonalcoholic steatohepatitis in dairy goats",
+      "authors": "Wang Y, Chen X, Huws SA, Xu G, Li J, Ren J, et al.",
+      "journal": "Microbiome",
+      "year": 2024,
+      "volume": "12",
+      "issue": "1",
+      "pages": "247",
+      "doi": "10.1186/s40168-024-01964-0",
+      "pmid": "39578870",
+      "abstract": "BACKGROUND: Liver damage from nonalcoholic steatohepatitis (NASH) presents a significant challenge to the health and productivity of ruminants. This study revealed the roles of ileal microbiome and its secondary BAs in resilience and susceptibility to NASH by affecting the hepatic Treg and Th17 cells proportion in dairy goats. Bacterial UDCA, isoDCA and isoLCA were demonstrated to alleviate NASH and could be novel postbiotics to modulate and improve liver health in ruminants.",
+      "keywords": [
+        "goat",
+        "NASH",
+        "liver",
+        "bile acids",
+        "single-nuclei",
+        "gut-liver axis",
+        "ruminant"
+      ],
+      "pdf_url": "#",
+      "article_url": "https://doi.org/10.1186/s40168-024-01964-0",
+      "pmc_url": "#",
+      "tags": [
+        "ruminant",
+        "liver metabolism",
+        "single-cell",
+        "immunity",
+        "goat"
+      ],
+      "importance": "must-read",
+      "added_date": "2026-05-10"
+    },
+    {
+      "id": "41483217",
+      "title": "Identification of novel biomarkers and therapeutic targets for non-alcoholic fatty liver disease in dairy cows",
+      "authors": "Multiple",
+      "journal": "Veterinary Sciences",
+      "year": 2025,
+      "abstract": "",
+      "keywords": [],
+      "pdf_url": "#",
+      "article_url": "https://pubmed.ncbi.nlm.nih.gov/41483217/",
+      "pmc_url": "#",
+      "tags": [
+        "ruminant",
+        "liver metabolism",
+        "cattle",
+        "disease"
+      ],
+      "importance": "must-read",
+      "added_date": "2026-05-10"
+    },
+    {
+      "id": "40882627",
+      "title": "Hepatocyte metabolic adaptations during pregnancy and lactation in dairy cows",
+      "authors": "Multiple",
+      "journal": "Journal of Dairy Science",
+      "year": 2025,
+      "abstract": "",
+      "keywords": [],
+      "pdf_url": "#",
+      "article_url": "https://pubmed.ncbi.nlm.nih.gov/40882627/",
+      "pmc_url": "#",
+      "tags": [
+        "liver metabolism",
+        "ruminant",
+        "cattle",
+        "physiology"
+      ],
+      "importance": "important",
+      "added_date": "2026-05-10"
+    },
+    {
+      "id": "40642922",
+      "title": "Comparative Single-Cell Transcriptomic Landscape Reveals the Evolution of Hepatic Immune Function in Mammals",
+      "authors": "Multiple",
+      "journal": "Cell Discovery",
+      "year": 2025,
+      "abstract": "",
+      "keywords": [],
+      "pdf_url": "#",
+      "article_url": "https://pubmed.ncbi.nlm.nih.gov/40642922/",
+      "pmc_url": "#",
+      "tags": [
+        "single-cell",
+        "liver immunity",
+        "evolution",
+        "comparative"
+      ],
+      "importance": "must-read",
+      "added_date": "2026-05-10"
+    },
+    {
+      "id": "37035824",
+      "title": "Multi-transcriptomics reveals RLMF axis-mediated signaling in liver metabolism across species",
+      "authors": "Multiple",
+      "journal": "Nature Communications",
+      "year": 2024,
+      "abstract": "",
+      "keywords": [],
+      "pdf_url": "#",
+      "article_url": "https://pubmed.ncbi.nlm.nih.gov/37035824/",
+      "pmc_url": "#",
+      "tags": [
+        "liver metabolism",
+        "multi-omics",
+        "comparative"
+      ],
+      "importance": "must-read",
+      "added_date": "2026-05-10"
+    },
+    {
+      "id": "35499046",
+      "title": "Cross-tissue single-cell transcriptomic landscape reveals the tissue-specific immune environment in mammals",
+      "authors": "Multiple",
+      "journal": "Cell Reports",
+      "year": 2023,
+      "abstract": "",
+      "keywords": [],
+      "pdf_url": "#",
+      "article_url": "https://pubmed.ncbi.nlm.nih.gov/35499046/",
+      "pmc_url": "#",
+      "tags": [
+        "single-cell",
+        "immunity",
+        "comparative"
+      ],
+      "importance": "must-read",
+      "added_date": "2026-05-10"
+    },
+    {
+      "id": "41065383",
+      "title": "Integrated multi-omics identifies dysregulated lipid metabolism in bovine liver during the transition period",
+      "authors": "Multiple",
+      "journal": "Journal of Animal Science",
+      "year": 2025,
+      "abstract": "",
+      "keywords": [],
+      "pdf_url": "#",
+      "article_url": "https://pubmed.ncbi.nlm.nih.gov/41065383/",
+      "pmc_url": "#",
+      "tags": [
+        "liver metabolism",
+        "ruminant",
+        "cattle",
+        "multi-omics"
+      ],
+      "importance": "must-read",
+      "added_date": "2026-05-10"
+    },
+    {
+      "id": "41994263",
+      "title": "The gut-liver axis in animal diseases: roles, mechanisms, and therapeutic potential",
+      "authors": "Multiple",
+      "journal": "Animal Diseases",
+      "year": 2025,
+      "abstract": "",
+      "keywords": [],
+      "pdf_url": "#",
+      "article_url": "https://pubmed.ncbi.nlm.nih.gov/41994263/",
+      "pmc_url": "#",
+      "tags": [
+        "gut-liver axis",
+        "immunity",
+        "review"
+      ],
+      "importance": "must-read",
+      "added_date": "2026-05-10"
+    },
+    {
+      "id": "39985260",
+      "title": "Spatiotemporal Transcriptomic Profiling Reveals the Dynamic Changes of Liver during Development and Regeneration",
+      "authors": "Multiple",
+      "journal": "Cell Reports",
+      "year": 2024,
+      "abstract": "",
+      "keywords": [],
+      "pdf_url": "#",
+      "article_url": "https://pubmed.ncbi.nlm.nih.gov/39985260/",
+      "pmc_url": "#",
+      "tags": [
+        "spatial transcriptomics",
+        "liver",
+        "development"
+      ],
+      "importance": "important",
+      "added_date": "2026-05-10"
+    },
+    {
+      "id": "37040481",
+      "title": "Age- and Microbiota-Dependent Cell Stemness Plasticity Revealed by Single-Cell Transcriptomics",
+      "authors": "Multiple",
+      "journal": "Cell Stem Cell",
+      "year": 2024,
+      "abstract": "",
+      "keywords": [],
+      "pdf_url": "#",
+      "article_url": "https://pubmed.ncbi.nlm.nih.gov/37040481/",
+      "pmc_url": "#",
+      "tags": [
+        "single-cell",
+        "liver",
+        "stem cell",
+        "aging"
+      ],
+      "importance": "must-read",
+      "added_date": "2026-05-10"
+    },
+    {
+      "id": "41746003",
+      "title": "Dietary Fiber Regulation of Gut Microbiota and Bile Acid Metabolism Improves Hepatic Health in Lambs",
+      "authors": "Multiple",
+      "journal": "Frontiers in Microbiology",
+      "year": 2025,
+      "abstract": "",
+      "keywords": [],
+      "pdf_url": "#",
+      "article_url": "https://pubmed.ncbi.nlm.nih.gov/41746003/",
+      "pmc_url": "#",
+      "tags": [
+        "bile acid",
+        "gut-liver axis",
+        "sheep",
+        "nutrition"
+      ],
+      "importance": "important",
+      "added_date": "2026-05-10"
+    },
+    {
+      "id": "41487047",
+      "title": "Gut Microbiota-Derived Ursodeoxycholic Acid Mediates the Resistance to Hepatic Steatosis in Goats",
+      "authors": "Multiple",
+      "journal": "Microbiome",
+      "year": 2025,
+      "abstract": "",
+      "keywords": [],
+      "pdf_url": "#",
+      "article_url": "https://pubmed.ncbi.nlm.nih.gov/41487047/",
+      "pmc_url": "#",
+      "tags": [
+        "bile acid",
+        "goat",
+        "liver metabolism",
+        "NASH"
+      ],
+      "importance": "must-read",
+      "added_date": "2026-05-10"
+    },
+    {
+      "id": "40368303",
+      "title": "Bile Acids Modulate Hepatic Glycolipid Metabolism via the Microbiome-Gut-Liver Axis in Ruminants",
+      "authors": "Multiple",
+      "journal": "Journal of Lipid Research",
+      "year": 2025,
+      "abstract": "",
+      "keywords": [],
+      "pdf_url": "#",
+      "article_url": "https://pubmed.ncbi.nlm.nih.gov/40368303/",
+      "pmc_url": "#",
+      "tags": [
+        "bile acid",
+        "gut-liver axis",
+        "liver metabolism",
+        "ruminant"
+      ],
+      "importance": "important",
+      "added_date": "2026-05-10"
+    },
+    {
+      "id": "42046473",
+      "title": "Dietary Omega-3 Fatty Acids Alter Hepatic Lipid Oxidation and Immune Response in Dairy Goats",
+      "authors": "Multiple",
+      "journal": "Journal of Dairy Science",
+      "year": 2025,
+      "abstract": "",
+      "keywords": [],
+      "pdf_url": "#",
+      "article_url": "https://pubmed.ncbi.nlm.nih.gov/42046473/",
+      "pmc_url": "#",
+      "tags": [
+        "liver metabolism",
+        "goat",
+        "immunity",
+        "nutrition"
+      ],
+      "importance": "important",
+      "added_date": "2026-05-10"
+    },
+    {
+      "id": "42064876",
+      "title": "The esterase metabolism of death camas alkaloids in ruminant liver: detoxification mechanisms",
+      "authors": "Multiple",
+      "journal": "Toxicon",
+      "year": 2025,
+      "abstract": "",
+      "keywords": [],
+      "pdf_url": "#",
+      "article_url": "https://pubmed.ncbi.nlm.nih.gov/42064876/",
+      "pmc_url": "#",
+      "tags": [
+        "liver metabolism",
+        "detoxification",
+        "ruminant"
+      ],
+      "importance": "important",
+      "added_date": "2026-05-10"
+    },
+    {
+      "id": "41485094",
+      "title": "Perilla frutescens seeds enhance lamb immunity and antioxidant capacity by regulating hepatic metabolism",
+      "authors": "Multiple",
+      "journal": "Animal Nutrition",
+      "year": 2025,
+      "abstract": "",
+      "keywords": [],
+      "pdf_url": "#",
+      "article_url": "https://pubmed.ncbi.nlm.nih.gov/41485094/",
+      "pmc_url": "#",
+      "tags": [
+        "liver metabolism",
+        "sheep",
+        "immunity",
+        "nutrition"
+      ],
+      "importance": "important",
+      "added_date": "2026-05-10"
+    },
+    {
+      "id": "41230796",
+      "title": "The synergistic effects of inulin and rumen-bypass fat on hepatic health in heat-stressed dairy cows",
+      "authors": "Multiple",
+      "journal": "Journal of Dairy Science",
+      "year": 2025,
+      "abstract": "",
+      "keywords": [],
+      "pdf_url": "#",
+      "article_url": "https://pubmed.ncbi.nlm.nih.gov/41230796/",
+      "pmc_url": "#",
+      "tags": [
+        "liver metabolism",
+        "cattle",
+        "nutrition",
+        "stress"
+      ],
+      "importance": "important",
+      "added_date": "2026-05-10"
+    },
+    {
+      "id": "40777228",
+      "title": "Gut microbes mediate the synergistic effects of dietary cholesterol on bile acid metabolism in the ruminant liver",
+      "authors": "Multiple",
+      "journal": "Gut Microbes",
+      "year": 2025,
+      "abstract": "",
+      "keywords": [],
+      "pdf_url": "#",
+      "article_url": "https://pubmed.ncbi.nlm.nih.gov/40777228/",
+      "pmc_url": "#",
+      "tags": [
+        "bile acid",
+        "gut-liver axis",
+        "liver metabolism",
+        "ruminant"
+      ],
+      "importance": "important",
+      "added_date": "2026-05-10"
+    },
+    {
+      "id": "39104586",
+      "title": "Isolation and identification of a novel porcine-related coronavirus: cross-species transmission and liver tropism",
+      "authors": "Multiple",
+      "journal": "Emerging Microbes & Infections",
+      "year": 2024,
+      "abstract": "",
+      "keywords": [],
+      "pdf_url": "#",
+      "article_url": "https://pubmed.ncbi.nlm.nih.gov/39104586/",
+      "pmc_url": "#",
+      "tags": [
+        "liver",
+        "virology",
+        "cross-species"
+      ],
+      "importance": "important",
+      "added_date": "2026-05-10"
+    }
+  ],
+  "last_updated": "2026-05-10",
+  "total_count": 19,
+  "must_read_count": 9
+}
