@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>文献管理 · 超越文献库</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", system-ui, sans-serif;
+    background: #f5f5f0; color: #2c3e50; line-height: 1.6;
+  }
+  .header {
+    background: linear-gradient(135deg, #c0392b, #e74c3c); color: white;
+    padding: 20px 24px; text-align: center;
+  }
+  .header h1 { font-size: 22px; }
+  .header a { color: white; opacity: .8; font-size: 13px; }
+  .main { max-width: 800px; margin: 0 auto; padding: 20px 16px; }
+  .card {
+    background: white; border: 1px solid #e0ddd5; border-radius: 10px;
+    padding: 20px; margin-bottom: 16px;
+  }
+  .card h2 { font-size: 16px; margin-bottom: 14px; color: #c0392b; }
+  .form-group { margin-bottom: 12px; }
+  .form-group label {
+    display: block; font-size: 13px; font-weight: 600; margin-bottom: 4px; color: #555;
+  }
+  .form-group label .optional { font-weight: 400; color: #999; }
+  .form-group input, .form-group textarea, .form-group select {
+    width: 100%; padding: 8px 10px; border: 1px solid #ddd; border-radius: 6px;
+    font-size: 13px; outline: none; font-family: inherit;
+  }
+  .form-group input:focus, .form-group textarea:focus { border-color: #c0392b; }
+  .form-group textarea { min-height: 80px; resize: vertical; }
+  .form-row { display: flex; gap: 10px; }
+  .form-row .form-group { flex: 1; }
+  .btn {
+    padding: 10px 20px; border: none; border-radius: 8px; font-size: 14px;
+    font-weight: 600; cursor: pointer;
+  }
+  .btn-primary { background: #c0392b; color: white; }
+  .btn-primary:hover { background: #a93226; }
+  .btn-secondary { background: #eaf2f8; color: #2c3e50; }
+  .btn-secondary:hover { background: #d4e6f1; }
+  .btn-danger { background: #fce4ec; color: #c0392b; }
+  .btn-danger:hover { background: #f5b7b1; }
+  .btn:disabled { opacity: .5; cursor: not-allowed; }
+  .msg {
+    padding: 10px 14px; border-radius: 8px; margin-top: 12px; font-size: 13px; display: none;
+  }
+  .msg.success { display: block; background: #eaf7ea; color: #155724; border: 1px solid #c3e6cb; }
+  .msg.error { display: block; background: #fce4ec; color: #c0392b; border: 1px solid #f5b7b1; }
+  .msg.loading { display: block; background: #eaf2f8; color: #2980b9; border: 1px solid #b3d9f2; }
+  .file-upload {
+    border: 2px dashed #ddd; border-radius: 8px; padding: 20px;
+    text-align: center; cursor: pointer; transition: all .2s;
+  }
+  .file-upload:hover { border-color: #c0392b; background: #fdf2f2; }
+  .file-upload.has-file { border-color: #27ae60; background: #eaf7ea; }
+  .file-upload input { display: none; }
+  .file-upload .hint { font-size: 12px; color: #999; margin-top: 4px; }
+  .paper-list { margin-top: 12px; }
+  .paper-item {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 8px 12px; border: 1px solid #eee; border-radius: 6px; margin-bottom: 6px;
+    font-size: 13px;
+  }
+  .paper-item .info { flex: 1; min-width: 0; }
+  .paper-item .info .journal { color: #2980b9; font-size: 11px; }
+  .paper-item .info .title { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .paper-item .actions { margin-left: 10px; }
+  .tabs { display: flex; gap: 0; margin-bottom: 16px; }
+  .tabs button {
+    flex: 1; padding: 10px; border: 1px solid #ddd; background: white;
+    font-size: 13px; font-weight: 600; cursor: pointer; color: #999;
+  }
+  .tabs button:first-child { border-radius: 8px 0 0 8px; }
+  .tabs button:last-child { border-radius: 0 8px 8px 0; }
+  .tabs button.active { background: #c0392b; color: white; border-color: #c0392b; }
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+  .hide { display: none; }
+  @media (max-width: 600px) {
+    .form-row { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>📚 文献管理后台</h1>
+  <a href="/" target="_blank">← 返回文献库主页</a>
+</div>
+
+<div class="main">
+  <div class="tabs">
+    <button class="active" data-tab="add">➕ 添加文献</button>
+    <button data-tab="list">📋 文献列表</button>
+    <button data-tab="stats">📊 统计</button>
+  </div>
+
+  <!-- 添加文献 -->
+  <div id="tab-add" class="tab-content active">
+    <div class="card">
+      <h2>添加新文献</h2>
+      <form id="add-form">
+        <div class="form-group">
+          <label>📄 PDF文件 <span class="optional">（可选）</span></label>
+          <div class="file-upload" id="file-drop" onclick="document.getElementById('pdf').click()">
+            <div id="file-text">点击选择PDF文件</div>
+            <div class="hint">支持PDF，最大50MB</div>
+            <input type="file" id="pdf" accept=".pdf" onchange="fileSelected(this)">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>英文标题 *</label>
+            <input type="text" id="title" required placeholder="Paper title in English">
+          </div>
+          <div class="form-group">
+            <label>中文标题</label>
+            <input type="text" id="title_cn" placeholder="文献中文标题">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>作者 *</label>
+          <input type="text" id="authors" required placeholder="e.g. Smith J, Wang Y, et al.">
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>期刊 *</label>
+            <input type="text" id="journal" required placeholder="e.g. Nature, Cell">
+          </div>
+          <div class="form-group">
+            <label>影响因子</label>
+            <input type="number" id="impact_factor" step="0.1" placeholder="e.g. 64.5">
+          </div>
+          <div class="form-group">
+            <label>年份</label>
+            <input type="number" id="year" value="2026">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>DOI</label>
+            <input type="text" id="doi" placeholder="10.1038/s41586-021-03362-0">
+          </div>
+          <div class="form-group">
+            <label>PMID</label>
+            <input type="text" id="pmid" placeholder="33762733">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>英文摘要 <span class="optional">（可选）</span></label>
+          <textarea id="abstract" placeholder="Paste English abstract here..."></textarea>
+        </div>
+
+        <div class="form-group">
+          <label>中文摘要 <span class="optional">（可选）</span></label>
+          <textarea id="abstract_cn" placeholder="粘贴中文摘要..."></textarea>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>重要性</label>
+            <select id="importance">
+              <option value="must-read">⭐ 必读</option>
+              <option value="important" selected>📌 重要</option>
+              <option value="normal">📄 普通</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>标签 <span class="optional">（逗号分隔）</span></label>
+            <input type="text" id="tags" placeholder="e.g. liver, single-cell, ruminant">
+          </div>
+          <div class="form-group">
+            <label>关键词 <span class="optional">（逗号分隔）</span></label>
+            <input type="text" id="keywords" placeholder="e.g. metabolism, Kupffer">
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary" id="submit-btn">📥 添加文献</button>
+        <div id="add-msg" class="msg"></div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 文献列表 -->
+  <div id="tab-list" class="tab-content">
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+        <h2 style="margin:0;">所有文献</h2>
+        <button class="btn btn-danger" onclick="if(document.getElementById('delete-panel').classList.contains('hide')){document.getElementById('delete-panel').classList.remove('hide');this.textContent='取消删除'}else{document.getElementById('delete-panel').classList.add('hide');this.textContent='🗑 删除文献'}">🗑 删除文献</button>
+      </div>
+      <div id="delete-panel" class="hide" style="margin-bottom:12px;">
+        <p style="font-size:12px;color:#c0392b;margin-bottom:8px;">点击文献右侧的删除按钮移除。此操作不可撤销。</p>
+      </div>
+      <div id="paper-list" class="paper-list">
+        <div style="text-align:center;padding:20px;color:#999;">加载中...</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 统计 -->
+  <div id="tab-stats" class="tab-content">
+    <div class="card">
+      <h2>文献统计</h2>
+      <div id="stats-content" style="text-align:center;padding:20px;color:#999;">加载中...</div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+// 从URL获取管理令牌
+const ADMIN_TOKEN = new URLSearchParams(window.location.search).get('token') || localStorage.getItem('admin_token');
+if (ADMIN_TOKEN) {
+  localStorage.setItem('admin_token', ADMIN_TOKEN);
+} else if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+  document.body.innerHTML = '<div style="max-width:400px;margin:100px auto;text-align:center;padding:40px;"><h2 style="margin-bottom:16px;">🔒 需要管理令牌</h2><p style="color:#666;margin-bottom:16px;">请在URL的 ?token= 参数中粘贴管理令牌</p><input id="token-input" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:6px;font-size:14px;box-sizing:border-box;" placeholder="粘贴管理令牌"><br><br><button onclick="var t=document.getElementById(\'token-input\').value;if(t){localStorage.setItem(\'admin_token\',t);location.reload();}" style="padding:10px 20px;background:#c0392b;color:white;border:none;border-radius:6px;cursor:pointer;">确认</button></div>';
+  throw new Error('no token');
+}
+
+function api(path, options) {
+  var opts = options || {};
+  opts.headers = opts.headers || {};
+  opts.headers['X-Admin-Token'] = ADMIN_TOKEN;
+  return fetch(path, opts);
+}
+
+// 标签切换
+document.querySelectorAll('.tabs button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tabs button').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+    if (btn.dataset.tab === 'list') loadPaperList();
+    if (btn.dataset.tab === 'stats') loadStats();
+  });
+});
+
+// 文件选择
+function fileSelected(input) {
+  const el = document.getElementById('file-drop');
+  const text = document.getElementById('file-text');
+  if (input.files.length) {
+    el.classList.add('has-file');
+    text.textContent = `📄 ${input.files[0].name} (${(input.files[0].size / 1024 / 1024).toFixed(1)} MB)`;
+  }
+}
+
+// 添加文献
+document.getElementById('add-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const msg = document.getElementById('add-msg');
+  const btn = document.getElementById('submit-btn');
+  
+  msg.className = 'msg loading';
+  msg.textContent = '正在上传...';
+  btn.disabled = true;
+
+  const formData = new FormData();
+  formData.append('title', document.getElementById('title').value);
+  formData.append('title_cn', document.getElementById('title_cn').value);
+  formData.append('authors', document.getElementById('authors').value);
+  formData.append('journal', document.getElementById('journal').value);
+  formData.append('impact_factor', document.getElementById('impact_factor').value);
+  formData.append('year', document.getElementById('year').value);
+  formData.append('doi', document.getElementById('doi').value);
+  formData.append('pmid', document.getElementById('pmid').value);
+  formData.append('abstract', document.getElementById('abstract').value);
+  formData.append('abstract_cn', document.getElementById('abstract_cn').value);
+  formData.append('importance', document.getElementById('importance').value);
+  formData.append('tags', document.getElementById('tags').value);
+  formData.append('keywords', document.getElementById('keywords').value);
+  
+  const pdfInput = document.getElementById('pdf');
+  if (pdfInput.files.length) formData.append('pdf', pdfInput.files[0]);
+
+  try {
+    const res = await api('/api/add-paper', { method: 'POST', body: formData });
+    const data = await res.json();
+    if (data.success) {
+      msg.className = 'msg success';
+      msg.textContent = `✅ 添加成功！「${data.paper.title.substring(0, 50)}...」`;
+      document.getElementById('add-form').reset();
+      document.getElementById('file-drop').classList.remove('has-file');
+      document.getElementById('file-text').textContent = '点击选择PDF文件';
+    } else {
+      msg.className = 'msg error';
+      msg.textContent = '❌ 错误: ' + (data.error || '未知错误');
+    }
+  } catch(err) {
+    msg.className = 'msg error';
+    msg.textContent = '❌ 网络错误: ' + err.message;
+  }
+  btn.disabled = false;
+});
+
+// 加载文献列表
+async function loadPaperList() {
+  const el = document.getElementById('paper-list');
+  el.innerHTML = '<div style="text-align:center;padding:20px;color:#999;">加载中...</div>';
+  try {
+    const res = await api('/api/papers');
+    const data = await res.json();
+    if (!data.papers || !data.papers.length) {
+      el.innerHTML = '<div style="text-align:center;padding:20px;color:#999;">暂无文献</div>';
+      return;
+    }
+    el.innerHTML = data.papers.map(p => `
+      <div class="paper-item">
+        <div class="info">
+          <div class="title">${p.title_cn || p.title}</div>
+          <div class="journal">${p.journal} (${p.year}) · ${p.authors.substring(0, 40)}${p.authors.length > 40 ? '...' : ''}</div>
+        </div>
+        <div class="actions">
+          <button class="btn btn-danger" style="font-size:11px;padding:4px 8px;" onclick="deletePaper('${p.id}','${(p.title||'').replace(/'/g,"\\'").substring(0,30)}')">删除</button>
+        </div>
+      </div>
+    `).join('');
+  } catch(err) {
+    el.innerHTML = `<div style="text-align:center;padding:20px;color:#c0392b;">❌ 加载失败: ${err.message}</div>`;
+  }
+}
+
+// 删除文献
+async function deletePaper(id, title) {
+  if (!confirm(`确定删除「${title}...」吗？此操作不可撤销。`)) return;
+  try {
+    const res = await api(`/api/delete-paper/${id}`, { method: 'DELETE' });
+    const data = await res.json();
+    if (data.success) {
+      alert('✅ 已删除');
+      loadPaperList();
+    } else {
+      alert('❌ ' + (data.error || '删除失败'));
+    }
+  } catch(err) {
+    alert('❌ 网络错误: ' + err.message);
+  }
+}
+
+// 加载统计
+async function loadStats() {
+  const el = document.getElementById('stats-content');
+  try {
+    const res = await api('/api/stats');
+    const data = await res.json();
+    let html = `
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px;">
+        <div style="background:#fce4ec;border-radius:8px;padding:16px;">
+          <div style="font-size:28px;font-weight:700;color:#c0392b;">${data.total}</div>
+          <div style="font-size:12px;color:#666;">总文献</div>
+        </div>
+        <div style="background:#eaf2f8;border-radius:8px;padding:16px;">
+          <div style="font-size:28px;font-weight:700;color:#2980b9;">${data.must_read}</div>
+          <div style="font-size:12px;color:#666;">⭐ 必读</div>
+        </div>
+        <div style="background:#fef9e7;border-radius:8px;padding:16px;">
+          <div style="font-size:28px;font-weight:700;color:#d4ac0d;">${data.important}</div>
+          <div style="font-size:12px;color:#666;">📌 重要</div>
+        </div>
+      </div>
+      <div style="text-align:left;">
+        <h3 style="font-size:14px;margin-bottom:8px;">期刊分布</h3>
+        ${data.journals.map(([j,c]) => `<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #eee;font-size:13px;"><span>${j}</span><span style="font-weight:600;">${c}篇</span></div>`).join('')}
+      </div>
+    `;
+    el.innerHTML = html;
+  } catch(err) {
+    el.innerHTML = `<div style="color:#c0392b;">❌ 加载失败: ${err.message}</div>`;
+  }
+}
+
+// 初始加载
+loadPaperList();
+</script>
+</body>
+</html>
