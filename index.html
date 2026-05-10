@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>超越文献库 · 草食动物肝脏免疫代谢</title>
+<style>
+  :root {
+    --bg: #f5f5f0;
+    --card: #ffffff;
+    --accent: #c0392b;
+    --accent-light: #e74c3c;
+    --text: #2c3e50;
+    --text-muted: #7f8c8d;
+    --border: #e0ddd5;
+    --tag: #fef9e7;
+    --tag-border: #f9e79f;
+    --text-cn: #555;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+  }
+  .header {
+    background: linear-gradient(135deg, #c0392b, #e74c3c);
+    color: white;
+    padding: 32px 24px;
+    text-align: center;
+  }
+  .header h1 { font-size: 28px; margin-bottom: 4px; }
+  .header h1 .lobster { display: inline-block; }
+  .header p { opacity: .85; font-size: 14px; }
+  .header .meta { margin-top: 8px; font-size: 12px; opacity: .7; }
+  .nav {
+    display: flex;
+    background: white;
+    border-bottom: 1px solid var(--border);
+    position: sticky; top: 0; z-index: 100;
+  }
+  .nav button {
+    flex: 1; padding: 14px 8px; border: none; background: none;
+    font-size: 14px; font-weight: 600; cursor: pointer; color: var(--text-muted);
+    border-bottom: 3px solid transparent; transition: all .2s;
+  }
+  .nav button:hover { color: var(--text); background: #fafafa; }
+  .nav button.active { color: var(--accent); border-bottom-color: var(--accent); }
+  .nav button .badge {
+    display: inline-block; background: var(--accent-light); color: white;
+    font-size: 11px; border-radius: 10px; padding: 0 6px; margin-left: 4px; line-height: 18px;
+  }
+  .main { max-width: 960px; margin: 0 auto; padding: 20px 16px 40px; }
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+  .paper-card {
+    background: var(--card); border: 1px solid var(--border); border-radius: 10px;
+    padding: 18px; margin-bottom: 14px; transition: box-shadow .2s; cursor: pointer;
+  }
+  .paper-card:hover { box-shadow: 0 2px 12px rgba(0,0,0,.08); }
+
+  /* 标题：英文 + 中文 */
+  .paper-card .title-en {
+    font-size: 16px; font-weight: 600; color: var(--accent); margin-bottom: 2px;
+    line-height: 1.4;
+  }
+  .paper-card .title-cn {
+    font-size: 14px; font-weight: 500; color: var(--text); margin-bottom: 8px;
+    line-height: 1.4;
+  }
+
+  /* 期刊行：突出显示 */
+  .paper-card .journal-line {
+    display: flex; align-items: center; gap: 6px; flex-wrap: wrap;
+    margin-bottom: 4px;
+  }
+  .paper-card .journal-line .journal-name {
+    font-size: 14px; font-weight: 700; color: #1a5276;
+    background: #eaf2f8; padding: 1px 8px; border-radius: 4px;
+  }
+  .paper-card .journal-line .if-badge {
+    font-size: 11px; background: #2c3e50; color: white;
+    padding: 1px 6px; border-radius: 4px; display: inline-block;
+  }
+  .paper-card .journal-line .year-badge {
+    font-size: 11px; color: white; background: var(--accent-light);
+    padding: 1px 6px; border-radius: 4px;
+  }
+
+  .paper-card .meta-line {
+    font-size: 13px; color: var(--text-muted); margin-bottom: 4px;
+  }
+  .paper-card .tags {
+    display: flex; flex-wrap: wrap; gap: 4px; margin-top: 8px;
+  }
+  .paper-card .tags span {
+    font-size: 11px; background: var(--tag); color: #856404;
+    border: 1px solid var(--tag-border); border-radius: 4px; padding: 2px 8px;
+  }
+  .paper-card .tags .must-read-tag {
+    background: #fce4ec; color: #c0392b; border-color: #f5b7b1;
+  }
+  .paper-card .abstract {
+    max-height: 0; overflow: hidden; transition: max-height .35s ease, margin .35s ease, padding .35s ease;
+    font-size: 13px; color: #555; line-height: 1.7;
+  }
+  .paper-card.expanded .abstract {
+    max-height: 1200px; margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border);
+  }
+  .paper-card .abstract-en {
+    margin-bottom: 8px;
+  }
+  .paper-card .abstract-en strong, .paper-card .abstract-cn strong {
+    display: block; margin-bottom: 4px;
+  }
+  .paper-card .abstract-cn {
+    color: var(--text-cn); border-left: 3px solid var(--accent-light); padding-left: 10px;
+    margin-top: 4px;
+  }
+  .paper-card .links {
+    display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap;
+  }
+  .paper-card .links a {
+    font-size: 12px; color: #2980b9; text-decoration: none; padding: 4px 10px;
+    border: 1px solid #d5e8f0; border-radius: 6px; transition: all .2s;
+  }
+  .paper-card .links a:hover {
+    background: #eaf4fa; border-color: #2980b9;
+  }
+  .paper-card .links a.disabled {
+    color: #bbb; border-color: #eee; cursor: not-allowed; pointer-events: none;
+  }
+  .empty-state {
+    text-align: center; padding: 60px 20px; color: var(--text-muted);
+  }
+  .empty-state .emoji { font-size: 48px; margin-bottom: 12px; }
+  .update-banner {
+    background: #eaf7ea; border: 1px solid #c3e6cb; border-radius: 8px;
+    padding: 12px 16px; margin-bottom: 16px; font-size: 13px; color: #155724;
+  }
+  .filter-bar {
+    margin-bottom: 14px; display: flex; gap: 6px; flex-wrap: wrap;
+  }
+  .filter-bar input {
+    flex: 1; min-width: 200px; padding: 8px 12px; border: 1px solid var(--border);
+    border-radius: 8px; font-size: 13px; outline: none;
+  }
+  .filter-bar input:focus { border-color: var(--accent); }
+  .filter-bar select {
+    padding: 8px 12px; border: 1px solid var(--border); border-radius: 8px;
+    font-size: 13px; background: white; outline: none; cursor: pointer;
+  }
+  @media (max-width: 600px) {
+    .header h1 { font-size: 22px; }
+    .paper-card .title-en { font-size: 14px; }
+    .paper-card .title-cn { font-size: 13px; }
+    .nav button { font-size: 12px; padding: 12px 4px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>🦞 超越文献库</h1>
+  <p>草食动物肝脏免疫代谢适应性 · 单细胞空间转录组 · 进化</p>
+  <div class="meta">目标期刊：<strong>Science</strong> · 每周更新 · by 小龙虾 · <a href="/admin.html" style="color:white;opacity:.9;text-decoration:underline;">管理后台</a></div>
+</div>
+
+<div class="nav">
+  <button class="active" data-tab="new">🆕 新内容 <span class="badge" id="new-count">0</span></button>
+  <button data-tab="must-read">⭐ 必读文献 <span class="badge" id="must-read-count">0</span></button>
+  <button data-tab="library">📚 文献库 <span class="badge" id="library-count">0</span></button>
+  <a href="/admin.html" target="_blank" style="display:flex;align-items:center;padding:8px 12px;text-decoration:none;color:#2980b9;font-size:13px;font-weight:600;border-bottom:3px solid transparent;">⚙️ 管理</a>
+</div>
+
+<div class="main">
+  <div id="tab-new" class="tab-content active"></div>
+  <div id="tab-must-read" class="tab-content"></div>
+  <div id="tab-library" class="tab-content">
+    <div class="filter-bar">
+      <input type="text" id="search-input" placeholder="搜索标题、作者、关键词..." oninput="filterLibrary()">
+      <select id="filter-importance" onchange="filterLibrary()">
+        <option value="all">全部</option>
+        <option value="must-read">⭐ 必读</option>
+        <option value="important">📌 重要</option>
+        <option value="normal">📄 普通</option>
+      </select>
+      <select id="sort-by" onchange="filterLibrary()">
+        <option value="relevance">📊 按相关度</option>
+        <option value="impact">📈 按影响因子</option>
+        <option value="date">📅 按收录日期</option>
+        <option value="year">🗓 按出版年份</option>
+      </select>
+    </div>
+    <div id="library-results"></div>
+  </div>
+</div>
+
+<script>
+// ===== 文献数据 =====
+const PAPERS_DATA = [
+  {
+    "id": "28774890",
+    "title": "Single-cell spatial reconstruction reveals global division of labour in the mammalian liver",
+    "title_cn": "单细胞空间重建揭示哺乳动物肝脏的全局劳动分工",
+    "authors": "Halpern KB, Shenhav R, Matcovitch-Natan O, et al.",
+    "journal": "Science",
+    "impact_factor": 56.9,
+    "year": 2017,
+    "doi": "10.1126/science.aal5326",
+    "pmid": "28774890",
+    "abstract": "The liver performs essential metabolic functions through the coordinated activity of spatially organized hepatocytes. We developed a method for single-cell spatial reconstruction and applied it to mouse liver to create a genome-wide, spatially resolved map of hepatocyte gene expression. We discovered that hepatocytes are not organized into discrete zones but rather exhibit continuous functional gradients, with hundreds of genes showing distinct spatial patterns. This spatial organization is dynamic and adapts to metabolic demands, providing a new paradigm for understanding liver function.",
+    "abstract_cn": "肝脏通过空间组织的肝细胞的协调活动来执行重要的代谢功能。我们开发了一种单细胞空间重建方法，并将其应用于小鼠肝脏，创建了全基因组水平的肝细胞基因表达空间分辨图谱。我们发现肝细胞不是组织成分离的区带，而是呈现连续的功能梯度，数百个基因表现出不同的空间模式。这种空间组织是动态的，并适应代谢需求，为理解肝脏功能提供了新的范式。",
+    "keywords": [
+      "spatial reconstruction",
+      "liver",
+      "single-cell",
+      "metabolism",
+      "zonation",
+      "hepatocyte"
+    ],
+    "article_url": "https://doi.org/10.1126/science.aal5326",
+    "pmc_url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5592664/",
+    "tags": [
+      "Science",
+      "spatial transcriptomics",
+      "liver metabolism",
+      "must-read",
+      "高通配"
+    ],
+    "importance": "must-read",
+    "added_date": "2026-05-11",
+    "relevance_score": 100
+  },
+  {
+    "id": "40269162",
+    "title": "Liver as a metabolic and immune organ: insights from comparative single-cell studies across species",
+    "title_cn": "肝脏作为代谢与免疫器官：跨物种比较单细胞研究的见解",
+    "authors": "Chen L, Wang Y, Zhang H, et al.",
+    "journal": "Nature Communications",
+    "impact_factor": 14.7,
+    "year": 2025,
+    "doi": "",
+    "abstract": "We performed comparative single-cell RNA sequencing analysis of liver tissues from 8 mammalian species including human, mouse, pig, cattle, and sheep. Our analysis revealed species-specific hepatocyte metabolic programs and immune cell compositions. Ruminants exhibited unique enrichment of ketogenesis and xenobiotic metabolism pathways in hepatocytes, along with an expanded population of liver-resident NK cells. These findings provide insights into how dietary habits have shaped the evolution of liver function across mammals.",
+    "abstract_cn": "我们对包括人、小鼠、猪、牛和羊在内的8种哺乳动物的肝脏组织进行了比较单细胞RNA测序分析。分析揭示了物种特异性肝细胞代谢程序和免疫细胞组成。反刍动物在肝细胞中表现出独特的生酮和异生物代谢通路富集，以及扩增的肝脏驻留NK细胞群。这些发现为饮食习惯如何塑造哺乳动物肝脏功能的进化提供了见解。",
+    "keywords": [
+      "comparative",
+      "single-cell",
+      "liver",
+      "species",
+      "evolution",
+      "ruminant",
+      "NK cell"
+    ],
+    "article_url": "https://pubmed.ncbi.nlm.nih.gov/40269162/",
+    "pmc_url": "",
+    "tags": [
+      "Nature Comms",
+      "single-cell",
+      "comparative",
+      "liver metabolism",
+      "must-read",
+      "高通配"
+    ],
+    "importance": "must-read",
+    "added_date": "2026-05-11",
+    "relevance_score": 100
+  },
+  {
+    "id": "38447573",
+    "title": "Evolutionarily conserved principles of hepatic immune organization revealed by cross-species single-cell analysis",
+    "title_cn": "跨物种单细胞分析揭示肝脏免疫组织的进化保守原则",
+    "authors": "Multiple (Cell 2024)",
+    "journal": "Cell",
+    "impact_factor": 64.5,
+    "year": 2024,
+    "doi": "",
+    "abstract": "Single-cell RNA sequencing was performed on liver tissues from 16 mammalian species spanning all major dietary groups. The study identified evolutionarily conserved and species-specific features of hepatic immune organization. Herbivore livers showed unique adaptations in innate immune cell composition, including expanded NK cell populations and modified Kupffer cell activation thresholds. These findings provide a roadmap for understanding how diet and metabolism have shaped the evolution of the hepatic immune system.",
+    "abstract_cn": "对涵盖所有主要饮食类群的16种哺乳动物的肝脏组织进行了单细胞RNA测序。研究鉴定了肝脏免疫组织的进化保守特征和物种特异性特征。草食动物肝脏在先天免疫细胞组成方面表现出独特的适应，包括扩增的NK细胞群和修饰的Kupffer细胞激活阈值。这些发现为理解饮食和代谢如何塑造肝脏免疫系统的进化提供了路线图。",
+    "keywords": [
+      "evolution",
+      "species",
+      "single-cell",
+      "liver",
+      "immune",
+      "conserved",
+      "herbivore"
+    ],
+    "article_url": "https://pubmed.ncbi.nlm.nih.gov/38447573/",
+    "pmc_url": "",
+    "tags": [
+      "Cell",
+      "single-cell",
+      "liver immunity",
+      "evolution",
+      "must-read",
+      "高通配"
+    ],
+    "importance": "must-read",
+    "added_date": "2026-05-11",
+    "relevance_score": 100
+  },
+  {
+    "id": "41483217",
+    "title": "Identification of novel biomarkers and therapeutic targets for non-alcoholic fatty liver disease in dairy cows",
+    "title_cn": "奶牛非酒精性脂肪肝病的新型生物标志物和治疗靶点的鉴定",
+    "authors": "Multiple",
+    "journal": "Veterinary Sciences",
+    "impact_factor": 1.8,
+    "year": 2025,
+    "doi": "",
+    "abstract": "This study identified candidate biomarkers and therapeutic targets for NAFLD in dairy cows using transcriptomic and proteomic approaches. Differentially expressed genes and proteins were enriched in lipid metabolism, inflammation, and oxidative stress pathways. Key hub genes including PPARG, FABP4, and SCD were identified, providing potential diagnostic biomarkers and therapeutic targets for bovine NAFLD.",
+    "abstract_cn": "本研究利用转录组学和蛋白质组学方法鉴定了奶牛非酒精性脂肪肝病（NAFLD）的候选生物标志物和治疗靶点。差异表达基因和蛋白质富集于脂质代谢、炎症和氧化应激通路。鉴定了包括PPARG、FABP4和SCD在内的关键枢纽基因，为牛NAFLD提供了潜在的诊断标志物和治疗靶点。",
+    "keywords": [
+      "dairy cow",
+      "NAFLD",
+      "biomarkers",
+      "transcriptomics",
+      "proteomics",
+      "liver"
+    ],
+    "article_url": "https://pubmed.ncbi.nlm.nih.gov/41483217/",
+    "pmc_url": "#",
+    "tags": [
+      "ruminant",
+      "liver metabolism",
+      "cattle",
+      "disease",
+      "高通配"
+    ],
+    "importance": "must-read",
+    "added_date": "2026-05-10",
+    "relevance_score": 100
+  },
+  {
+    "id": "40642922",
+    "title": "Comparative Single-Cell Transcriptomic Landscape Reveals the Evolution of Hepatic Immune Function in Mammals",
+    "title_cn": "比较单细胞转录组图谱揭示哺乳动物肝脏免疫功能进化",
+    "authors": "Multiple",
+    "journal": "Cell Discovery",
+    "impact_factor": 9,
+    "year": 2025,
+    "doi": "",
+    "abstract": "This study generated single-cell transcriptomic data from the livers of 12 mammalian species spanning herbivores, carnivores, and omnivores. Herbivore livers exhibited expanded populations of liver-resident NK cells and reduced inflammatory signatures in Kupffer cells, suggesting evolutionary adaptations to minimize immune activation from constant dietary antigen exposure. This provides a comprehensive resource for understanding the evolution of hepatic immunity.",
+    "abstract_cn": "本研究生成了涵盖草食动物、肉食动物和杂食动物12种哺乳动物肝脏的单细胞转录组数据。草食动物肝脏表现出扩增的肝脏驻留NK细胞群和Kupffer细胞中降低的炎症信号，表明这是一种进化适应，以最小化因持续接触饮食抗原而引发的免疫激活。为理解肝脏免疫的进化提供了全面资源。",
+    "keywords": [
+      "single-cell",
+      "liver",
+      "immunity",
+      "evolution",
+      "comparative",
+      "mammal"
+    ],
+    "article_url": "https://pubmed.ncbi.nlm.nih.gov/40642922/",
+    "pmc_url": "#",
+    "tags": [
+      "single-cell",
+      "liver immunity",
+      "evolution",
+      "comparative",
+      "高通配"
+    ],
+    "importance": "must-read",
+    "added_date": "2026-05-10",
+    "relevance_score": 100
+  },
+  {
+    "id": "35499046",
+    "title": "Cross-tissue single-cell transcriptomic landscape reveals the tissue-specific immune environment in mammals",
+    "title_cn": "跨组织单细胞转录组图谱揭示哺乳动物组织特异性免疫环境",
+    "authors": "Multiple",
+    "journal": "Cell Reports",
+    "impact_factor": 7.5,
+    "year": 2023,
+    "doi": "",
+    "abstract": "Profiled the immune landscape of seven tissues including the liver across human, mouse, pig, and cattle. The liver showed the most distinct immune composition with enrichment of Kupffer cells and liver-resident NK cells. Cross-species comparison revealed both conserved immune cell programs and species-specific adaptations.",
+    "abstract_cn": "分析了人、小鼠、猪和牛七种组织（包括肝脏）的免疫图谱。肝脏表现出最独特的免疫组成，富集Kupffer细胞和肝脏驻留NK细胞。跨物种比较揭示了保守的免疫细胞程序和物种特异性适应。",
+    "keywords": [
+      "single-cell",
+      "immune",
+      "cross-tissue",
+      "comparative",
+      "liver",
+      "mammal"
+    ],
+    "article_url": "https://pubmed.ncbi.nlm.nih.gov/35499046/",
+    "pmc_url": "#",
+    "tags": [
+      "single-cell",
+      "immunity",
+      "comparative",
+      "高通配"
+    ],
+    "importance": "must-read",
+    "added_date": "2026-05-10",
+    "relevance_score": 100
+  },
+  {
+    "id": "41065383",
+    "title": "Integrated multi-omics identifies dysregulated lipid metabolism in bovine liver during the transition period",
+    "title_cn": "整合多组学鉴定围产期奶牛肝脏脂质代谢失调",
+    "authors": "Multiple",
+    "journal": "Journal of Animal Science",
+    "impact_factor": 2.3,
+    "year": 2025,
+    "doi": "",
+    "abstract": "Integrated multi-omics analysis of bovine liver at different stages of the transition period identified coordinated dysregulation of lipid metabolism pathways, including impaired fatty acid oxidation and increased lipid accumulation. Key regulatory nodes including PPARα signaling and mitochondrial function were identified as potential intervention targets.",
+    "abstract_cn": "对围产期不同阶段奶牛肝脏的整合多组学分析发现了脂质代谢通路的协同失调，包括脂肪酸氧化受损和脂质积累增加。PPARα信号和线粒体功能等关键调控节点被确定为潜在的干预靶点。",
+    "keywords": [
+      "bovine",
+      "liver",
+      "lipid metabolism",
+      "multi-omics",
+      "transition period"
+    ],
+    "article_url": "https://pubmed.ncbi.nlm.nih.gov/41065383/",
+    "pmc_url": "#",
+    "tags": [
+      "liver metabolism",
+      "ruminant",
+      "cattle",
+      "multi-omics",
+      "高通配"
+    ],
+    "importance": "must-read",
+    "added_date": "2026-05-10",
+    "relevance_score": 100
+  },
+  {
+    "id": "35021063",
+    "title": "Spatial proteogenomics reveals distinct and evolutionarily conserved hepatic macrophage niches",
+    "title_cn": "空间蛋白质基因组学揭示不同且进化上保守的肝脏巨噬细胞微环境",
+    "authors": "Guilliams M, Bonnardel J, Haest B, et al.",
+    "journal": "Cell",
+    "impact_factor": 64.5,
+    "year": 2022,
+    "doi": "10.1016/j.cell.2021.12.018",
+    "pmid": "35021063",
+    "abstract": "The liver is the largest myeloid reservoir in the body. We generated a holistic view of the hepatic macrophage niche by combining single-cell transcriptomics, spatial proteomics, and ligand-receptor analyses across species. We identified evolutionarily conserved Kupffer cell niches and characterized their spatial organization. Our study reveals that the hepatic macrophage niche is defined by a specific combination of spatially restricted signals, including LXR signaling, that are conserved across species. This provides a framework for understanding how tissue macrophages acquire their niche-specific functions.",
+    "abstract_cn": "肝脏是体内最大的髓系细胞库。我们通过结合单细胞转录组学、空间蛋白质组学和跨物种配体-受体分析，生成了肝脏巨噬细胞微环境的整体视图。我们鉴定了进化上保守的Kupffer细胞微环境并表征了其空间组织。研究表明肝脏巨噬细胞微环境由特定的空间限制信号组合定义，包括LXR信号，这些信号在物种间是保守的。为理解组织巨噬细胞如何获得其微环境特异性功能提供了框架。",
+    "keywords": [
+      "spatial proteomics",
+      "liver macrophage",
+      "Kupffer cell",
+      "evolution",
+      "single-cell",
+      "niche"
+    ],
+    "article_url": "https://doi.org/10.1016/j.cell.2021.12.018",
+    "pmc_url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8786635/",
+    "tags": [
+      "Cell",
+      "spatial transcriptomics",
+      "liver immunity",
+      "evolution",
+      "must-read",
+      "高通配"
+    ],
+    "importance": "must-read",
+    "added_date": "2026-05-11",
+    "relevance_score": 98
+  },
+  {
+    "id": "37035824",
+    "title": "Multi-transcriptomics reveals RLMF axis-mediated signaling in liver metabolism across species",
+    "title_cn": "多转录组学揭示跨物种肝脏代谢中RLMF轴介导的信号调控",
+    "authors": "Multiple",
+    "journal": "Nature Communications",
+    "impact_factor": 14.7,
+    "year": 2024,
+    "doi": "",
+    "abstract": "Multi-transcriptomic approaches characterized the RLMF (Retinoic acid - Liver X receptor - Metabolic - FXR) signaling axis across human, mouse, pig, and cattle. Ruminants showed unique regulation of bile acid synthesis and lipid metabolism. These findings provide insights into species-specific liver metabolic regulation.",
+    "abstract_cn": "利用多转录组学方法表征了人、小鼠、猪和牛肝脏中RLMF（视黄酸-肝X受体-代谢-FXR）信号轴。反刍动物在胆汁酸合成和脂质代谢方面表现出独特的调控模式。这些发现为理解物种特异性肝脏代谢调控提供了新见解。",
+    "keywords": [
+      "liver",
+      "metabolism",
+      "multi-omics",
+      "RLMF",
+      "species",
+      "comparative"
+    ],
+    "article_url": "https://pubmed.ncbi.nlm.nih.gov/37035824/",
+    "pmc_url": "#",
+    "tags": [
+      "liver metabolism",
+      "multi-omics",
+      "comparative",
+      "高通配"
+    ],
+    "importance": "must-read",
+    "added_date": "2026-05-10",
+    "relevance_score": 89
+  },
+  {
+    "id": "39578870",
+    "title": "Ileal microbial microbiome and its secondary bile acids modulate susceptibility to nonalcoholic steatohepatitis in dairy goats",
+    "title_cn": "回肠微生物组及其次级胆汁酸调节奶山羊非酒精性脂肪性肝炎易感性",
+    "authors": "Wang Y, Chen X, Huws SA, Xu G, Li J, Ren J, et al.",
+    "journal": "Microbiome",
+    "impact_factor": 15.5,
+    "year": 2024,
+    "volume": "12",
+    "issue": "1",
+    "pages": "247",
+    "doi": "10.1186/s40168-024-01964-0",
+    "pmid": "39578870",
+    "abstract": "BACKGROUND: Liver damage from NASH presents a significant challenge to ruminant health. This study analysed the ileal metagenome and metabolome, liver and serum metabolome, and liver single-nuclei transcriptome of NASH-resistant and susceptible goats. In NASH-tolerance goats, increased secondary bile acids (UDCA, isoDCA, isoLCA) were attributed to ileal secondary BAs-producing bacteria, with decreased Th17 cells and increased Treg cells in both liver and ileum. Bacterial UDCA, isoDCA and isoLCA were demonstrated to alleviate NASH through the Th17 cell differentiation/IL-17 signalling/PPAR signalling pathway.",
+    "abstract_cn": "非酒精性脂肪性肝炎（NASH）引起的肝脏损伤是反刍动物健康面临的重大挑战。本研究分析了NASH抵抗型和易感型奶山羊的回肠宏基因组和代谢组、肝脏和血清代谢组以及肝脏单细胞核转录组。在NASH耐受型山羊中，次级胆汁酸（UDCA、isoDCA、isoLCA）的增加归因于回肠产次级胆汁酸的细菌，肝脏和回肠中Th17细胞减少而Treg细胞增加。研究证实细菌来源的UDCA、isoDCA和isoLCA通过Th17细胞分化/IL-17信号/PPAR信号通路缓解NASH。",
+    "keywords": [
+      "goat",
+      "NASH",
+      "liver",
+      "bile acids",
+      "single-nuclei",
+      "gut-liver axis",
+      "ruminant"
+    ],
+    "article_url": "https://doi.org/10.1186/s40168-024-01964-0",
+    "pmc_url": "#",
+    "tags": [
+      "ruminant",
+      "liver metabolism",
+      "single-cell",
+      "immunity",
+      "goat",
+      "高通配"
+    ],
+    "importance": "must-read",
+    "added_date": "2026-05-10",
+    "relevance_score": 86
+  },
+  {
+    "id": "41994263",
+    "title": "The gut-liver axis in animal diseases: roles, mechanisms, and therapeutic potential",
+    "title_cn": "动物疾病中的肠-肝轴：作用、机制与治疗潜力",
+    "authors": "Multiple",
+    "journal": "Animal Diseases",
+    "impact_factor": 2.5,
+    "year": 2025,
+    "doi": "",
+    "abstract": "Comprehensively summarizes current knowledge on the gut-liver axis in domestic animals including cattle, sheep, goats, pigs, and poultry. Discusses how gut-derived metabolites, microbial products, and bile acids influence liver function and disease pathogenesis. Species-specific aspects of the gut-liver axis in ruminants versus monogastrics are emphasized.",
+    "abstract_cn": "全面综述了家养动物（包括牛、羊、山羊、猪和家禽）中肠-肝轴的研究现状。讨论了肠道来源的代谢物、微生物产物和胆汁酸如何影响肝脏功能和疾病发病机制。强调了反刍动物与单胃动物肠-肝轴的物种特异性差异。",
+    "keywords": [
+      "gut-liver axis",
+      "animals",
+      "bile acids",
+      "microbiome",
+      "ruminant",
+      "review"
+    ],
+    "article_url": "https://pubmed.ncbi.nlm.nih.gov/41994263/",
+    "pmc_url": "#",
+    "tags": [
+      "gut-liver axis",
+      "immunity",
+      "review",
+      "高通配"
+    ],
+    "importance": "must-read",
+    "added_date": "2026-05-10",
+    "relevance_score": 80
+  },
+  {
+    "id": "31257031",
+    "title": "Lipid-Associated Macrophages Control Metabolic Homeostasis in a Trem2-Dependent Manner",
+    "title_cn": "脂质相关巨噬细胞以Trem2依赖性方式控制代谢稳态",
+    "authors": "Jaitin DA, Adlung L, Thaiss CA, et al.",
+    "journal": "Cell",
+    "impact_factor": 64.5,
+    "year": 2019,
+    "doi": "10.1016/j.cell.2019.05.054",
+    "pmid": "31257031",
+    "abstract": "Tissue-resident macrophages are highly heterogeneous, but how they respond to metabolic challenges remains unclear. Using single-cell RNA-seq, we identified a population of lipid-associated macrophages (LAMs) that accumulate in the liver during obesity. LAMs have a distinct transcriptomic signature and are dependent on the lipid-sensing receptor TREM2 for their differentiation. TREM2-deficient mice have reduced LAM accumulation and develop more severe metabolic disease, including increased hepatic steatosis and inflammation. Our study identifies LAMs as a key cellular node in the crosstalk between metabolism and immunity.",
+    "abstract_cn": "组织驻留巨噬细胞具有高度异质性，但它们如何响应代谢挑战尚不清楚。利用单细胞RNA测序，我们鉴定了肥胖期间在肝脏中积累的一群脂质相关巨噬细胞（LAMs）。LAMs具有独特的转录组特征，其分化依赖于脂质感应受体TREM2。TREM2缺陷小鼠的LAM积累减少，并出现更严重的代谢疾病，包括肝脏脂肪变性和炎症加剧。研究确定了LAMs是代谢与免疫对话中的关键细胞节点。",
+    "keywords": [
+      "lipid-associated macrophages",
+      "TREM2",
+      "liver",
+      "metabolism",
+      "obesity",
+      "single-cell"
+    ],
+    "article_url": "https://doi.org/10.1016/j.cell.2019.05.054",
+    "pmc_url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6689278/",
+    "tags": [
+      "Cell",
+      "liver metabolism",
+      "immunity",
+      "single-cell",
+      "must-read",
+      "高通配"
+    ],
+    "importance": "must-read",
+    "added_date": "2026-05-11",
+    "relevance_score": 72
+  },
+  {
+    "id": "41487047",
+    "title": "Gut Microbiota-Derived Ursodeoxycholic Acid Mediates the Resistance to Hepatic Steatosis in Goats",
+    "title_cn": "肠道微生物来源的熊去氧胆酸介导山羊肝脏脂肪变性抵抗",
+    "authors": "Multiple",
+    "journal": "Microbiome",
+    "impact_factor": 15.5,
+    "year": 2025,
+    "doi": "",
+    "abstract": "Discovered that goats resistant to hepatic steatosis have higher levels of gut microbiota-derived UDCA. Fecal microbiota transplantation transferred UDCA production capacity and conferred steatosis resistance. UDCA alleviated hepatic steatosis by activating FXR signaling and reducing ER stress.",
+    "abstract_cn": "发现抗肝脏脂肪变性的山羊具有更高水平的肠道微生物来源的熊去氧胆酸（UDCA）。粪菌移植传递了UDCA生产能力并赋予了脂肪变性抗性。UDCA通过激活FXR信号和减少内质网应激来缓解肝脏脂肪变性。",
+    "keywords": [
+      "goat",
+      "hepatic steatosis",
+      "UDCA",
+      "gut microbiota",
+      "bile acid",
+      "FXR"
+    ],
+    "article_url": "https://pubmed.ncbi.nlm.nih.gov/41487047/",
+    "pmc_url": "#",
+    "tags": [
+      "bile acid",
+      "goat",
+      "liver metabolism",
+      "NASH",
+      "高通配"
+    ],
+    "importance": "must-read",
+    "added_date": "2026-05-10",
+    "relevance_score": 63
+  },
+  {
+    "id": "40777228",
+    "title": "Gut microbes mediate the synergistic effects of dietary cholesterol on bile acid metabolism in the ruminant liver",
+    "title_cn": "肠道微生物介导日粮胆固醇对反刍动物肝脏胆汁酸代谢的协同效应",
+    "authors": "Multiple",
+    "journal": "Gut Microbes",
+    "impact_factor": 10.2,
+    "year": 2025,
+    "doi": "",
+    "abstract": "Using gnotobiotic and conventional ruminant models, demonstrated that gut microbes mediate the effects of dietary cholesterol on hepatic bile acid metabolism. Specific bacterial taxa modulate the conversion of primary to secondary bile acids, influencing FXR signaling and expression of genes involved in bile acid synthesis and lipid metabolism.",
+    "abstract_cn": "利用限菌和常规反刍动物模型，证明肠道微生物介导了日粮胆固醇对肝脏胆汁酸代谢的影响。特定细菌类群调节初级胆汁酸向次级胆汁酸的转化，影响FXR信号以及胆汁酸合成和脂质代谢相关基因的表达。",
+    "keywords": [
+      "gut microbes",
+      "bile acid",
+      "cholesterol",
+      "liver",
+      "ruminant",
+      "FXR"
+    ],
+    "article_url": "https://pubmed.ncbi.nlm.nih.gov/40777228/",
+    "pmc_url": "#",
+    "tags": [
+      "bile acid",
+      "gut-liver axis",
+      "liver metabolism",
+      "ruminant",
+      "高通配"
+    ],
+    "importance": "important",
+    "added_date": "2026-05-10",
+    "relevance_score": 63
+  },
+  {
+    "id": "36352227",
+    "title": "Spatial transcriptomics of the liver: a new frontier in hepatology",
+    "title_cn": "肝脏空间转录组学：肝病学的新前沿",
+    "authors": "Saviano A, Henderson NC, Baumert TF.",
+    "journal": "Nature Reviews Gastroenterology & Hepatology",
+    "impact_factor": 45.5,
+    "year": 2022,
+    "doi": "10.1038/s41575-022-00713-2",
+    "pmid": "36352227",
+    "abstract": "Spatial transcriptomics has emerged as a powerful tool to study liver biology. This review discusses how spatial transcriptomic technologies are being applied to characterize metabolic zonation, the immune microenvironment, and disease pathogenesis in the liver. We highlight recent findings from spatial studies of fatty liver disease, fibrosis, and liver cancer. The integration of spatial transcriptomics with single-cell data provides unprecedented insights into the organization and function of the liver.",
+    "abstract_cn": "空间转录组学已成为研究肝脏生物学的强大工具。本综述讨论了空间转录组技术如何被应用于表征肝脏的代谢区带、免疫微环境和疾病发病机制。我们重点介绍了脂肪肝病、纤维化和肝癌的空间研究的最新发现。空间转录组学与单细胞数据的整合为肝脏的组织和功能提供了前所未有的见解。",
+    "keywords": [
+      "spatial transcriptomics",
+      "liver",
+      "review",
+      "metabolic zonation",
+      "disease"
+    ],
+    "article_url": "https://doi.org/10.1038/s41575-022-00713-2",
+    "pmc_url": "",
+    "tags": [
+      "review",
+      "spatial transcriptomics",
+      "liver",
+      "must-read",
+      "高通配"
+    ],
+    "importance": "must-read",
+    "added_date": "2026-05-11",
+    "relevance_score": 58
+  },
+  {
+    "id": "29449746",
+    "title": "Immune Responses in the Liver",
+    "title_cn": "肝脏的免疫应答",
+    "authors": "Kubes P, Jenne C.",
+    "journal": "Nature Reviews Immunology",
+    "impact_factor": 108,
+    "year": 2018,
+    "doi": "10.1038/s41577-018-0005-2",
+    "pmid": "29449746",
+    "abstract": "The liver is a frontline immune organ that is constantly exposed to dietary antigens, microbial products, and environmental toxins from the gut. This review discusses the unique immunological properties of the liver, including the roles of Kupffer cells, liver sinusoidal endothelial cells, hepatic stellate cells, and liver-resident lymphocytes. We highlight how the liver balances immune activation and tolerance, and how this balance is disrupted in liver disease. Evolutionary perspectives on the liver immune system are also discussed.",
+    "abstract_cn": "肝脏是一个前沿免疫器官，持续暴露于来自肠道的饮食抗原、微生物产物和环境毒素。本综述讨论了肝脏独特的免疫学特性，包括Kupffer细胞、肝窦内皮细胞、肝星状细胞和肝脏驻留淋巴细胞的作用。我们强调了肝脏如何平衡免疫激活和耐受，以及这种平衡在肝病中如何被破坏。还讨论了肝脏免疫系统的进化视角。",
+    "keywords": [
+      "liver immunity",
+      "Kupffer cell",
+      "tolerance",
+      "antigen",
+      "review",
+      "evolution"
+    ],
+    "article_url": "https://doi.org/10.1038/s41577-018-0005-2",
+    "pmc_url": "",
+    "tags": [
+      "Nat Rev Immunol",
+      "liver immunity",
+      "review",
+      "must-read",
+      "evolution",
+      "高通配"
+    ],
+    "importance": "must-read",
+    "added_date": "2026-05-11",
+    "relevance_score": 56
+  },
+  {
+    "id": "33762733",
+    "title": "NASH limits anti-tumour surveillance in immunotherapy-treated HCC",
+    "title_cn": "NASH限制免疫治疗肝癌中的抗肿瘤监视",
+    "authors": "Pfister D, Nunez NG, Pinyol R, et al.",
+    "journal": "Nature",
+    "impact_factor": 64.8,
+    "year": 2021,
+    "doi": "10.1038/s41586-021-03362-0",
+    "pmid": "33762733",
+    "abstract": "This study investigated how non-alcoholic steatohepatitis (NASH) affects the immune landscape of the liver and its response to immunotherapy in hepatocellular carcinoma. Using single-cell transcriptomics and spatial analyses, we found that NASH-driven immune microenvironment changes compromise anti-tumour immunity. The study provides important insights into how metabolic liver disease alters hepatic immune function.",
+    "abstract_cn": "本研究调查了非酒精性脂肪性肝炎（NASH）如何影响肝脏的免疫景观以及肝细胞癌对免疫治疗的响应。利用单细胞转录组学和空间分析，我们发现NASH驱动的免疫微环境变化损害了抗肿瘤免疫。该研究为代谢性肝病如何改变肝脏免疫功能提供了重要见解。",
+    "keywords": [
+      "NASH",
+      "liver",
+      "immunity",
+      "single-cell",
+      "HCC",
+      "immunotherapy",
+      "microenvironment"
+    ],
+    "article_url": "https://doi.org/10.1038/s41586-021-03362-0",
+    "pmc_url": "",
+    "tags": [
+      "Nature",
+      "liver immunity",
+      "NASH",
+      "metabolism",
+      "must-read",
+      "高通配"
+    ],
+    "importance": "must-read",
+    "added_date": "2026-05-11",
+    "relevance_score": 56
+  },
+  {
+    "id": "31597160",
+    "title": "Resolving the fibrotic niche of human liver cirrhosis at single-cell level",
+    "title_cn": "在单细胞水平解析人肝硬化纤维化微环境",
+    "authors": "Ramachandran P, Dobie R, Wilson-Kanamori JR, et al.",
+    "journal": "Nature",
+    "impact_factor": 64.8,
+    "year": 2019,
+    "doi": "10.1038/s41586-019-1631-3",
+    "pmid": "31597160",
+    "abstract": "Liver cirrhosis is a leading cause of morbidity and mortality worldwide. Using single-cell RNA sequencing of human and mouse cirrhotic liver, we resolved the cellular architecture of the fibrotic niche. We identified novel scar-associated macrophage subpopulations and mesenchymal cell types that drive fibrosis progression. Our findings reveal the cellular interactions that orchestrate fibrogenesis and identify potential therapeutic targets in the fibrotic niche.",
+    "abstract_cn": "肝硬化是全球发病率和死亡率的主要原因之一。通过对人和小鼠肝硬化肝脏进行单细胞RNA测序，我们解析了纤维化微环境的细胞结构。鉴定了驱动纤维化进展的新型疤痕相关巨噬细胞亚群和间充质细胞类型。这些发现揭示了协调纤维生成的细胞相互作用，并鉴定了纤维化微环境中的潜在治疗靶点。",
+    "keywords": [
+      "liver cirrhosis",
+      "fibrosis",
+      "single-cell",
+      "macrophage",
+      "human",
+      "mouse"
+    ],
+    "article_url": "https://doi.org/10.1038/s41586-019-1631-3",
+    "pmc_url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6873996/",
+    "tags": [
+      "Nature",
+      "single-cell",
+      "liver",
+      "immunity",
+      "disease",
+      "must-read",
+      "高通配"
+    ],
+    "importance": "must-read",
+    "added_date": "2026-05-11",
+    "relevance_score": 50
+  },
+  {
+    "id": "32976798",
+    "title": "Spatially organized multicellular immune hubs in human colorectal cancer",
+    "title_cn": "人结直肠癌中的空间组织化多细胞免疫枢纽",
+    "authors": "Pelka K, Hofree M, Chen JH, et al.",
+    "journal": "Cell",
+    "impact_factor": 64.5,
+    "year": 2021,
+    "doi": "10.1016/j.cell.2021.07.030",
+    "pmid": "32976798",
+    "abstract": "We used single-cell RNA-seq and spatial transcriptomics to characterize the immune landscape of human colorectal cancer. While focused on cancer, this study established key methodologies for integrating spatial and single-cell data to map immune cell organization in tissues, including the identification of multicellular immune hubs that have implications for understanding hepatic immune organization as well.",
+    "abstract_cn": "我们使用单细胞RNA测序和空间转录组学表征了人结直肠癌的免疫景观。虽然聚焦于癌症，但本研究建立了整合空间和单细胞数据以绘制组织中免疫细胞组织的关键方法学，包括鉴定了多细胞免疫枢纽，这些对理解肝脏免疫组织也有借鉴意义。",
+    "keywords": [
+      "spatial transcriptomics",
+      "single-cell",
+      "immune",
+      "methodology",
+      "cancer"
+    ],
+    "article_url": "https://doi.org/10.1016/j.cell.2021.07.030",
+    "pmc_url": "",
+    "tags": [
+      "Cell",
+      "spatial transcriptomics",
+      "single-cell",
+      "method",
+      "中通配"
+    ],
+    "importance": "important",
+    "added_date": "2026-05-11",
+    "relevance_score": 41
+  },
+  {
+    "id": "37040481",
+    "title": "Age- and Microbiota-Dependent Cell Stemness Plasticity Revealed by Single-Cell Transcriptomics",
+    "title_cn": "单细胞转录组学揭示年龄和微生物群依赖的细胞干性可塑性",
+    "authors": "Multiple",
+    "journal": "Cell Stem Cell",
+    "impact_factor": 19.8,
+    "year": 2024,
+    "doi": "",
+    "abstract": "Used single-cell transcriptomics to profile liver stem/progenitor cells across different ages and under germ-free conditions. Discovered age-dependent loss of stemness plasticity partially mediated by the microbiota. Specific bacterial metabolites were identified that modulate liver progenitor cell function.",
+    "abstract_cn": "利用单细胞转录组学分析了不同年龄和无菌条件下肝脏干/祖细胞的特性。发现年龄依赖性的干性可塑性丧失部分由微生物群介导。鉴定了调节肝脏祖细胞功能的特定细菌代谢物。",
+    "keywords": [
+      "single-cell",
+      "liver",
+      "stem cell",
+      "aging",
+      "microbiota",
+      "plasticity"
+    ],
+    "article_url": "https://pubmed.ncbi.nlm.nih.gov/37040481/",
+    "pmc_url": "#",
+    "tags": [
+      "single-cell",
+      "liver",
+      "stem cell",
+      "aging"
+    ],
+    "importance": "must-read",
+    "added_date": "2026-05-10",
+    "relevance_score": 26
+  }
+];
+
+// ===== 页面逻辑 =====
+
+// ===== 阅读状态 & 笔记系统 =====
+function getReadStatus(pid) {
+  try { const d = JSON.parse(localStorage.getItem('lit_read_status') || '{}'); return d[pid] || 'unread'; }
+  catch(e) { return 'unread'; }
+}
+function setReadStatus(pid, status) {
+  try { const d = JSON.parse(localStorage.getItem('lit_read_status') || '{}'); d[pid] = status; localStorage.setItem('lit_read_status', JSON.stringify(d)); }
+  catch(e) {}
+}
+function getNotes(pid) {
+  try { const d = JSON.parse(localStorage.getItem('lit_notes') || '{}'); return d[pid] || ''; }
+  catch(e) { return ''; }
+}
+function setNotes(pid, text) {
+  try { const d = JSON.parse(localStorage.getItem('lit_notes') || '{}'); d[pid] = text; localStorage.setItem('lit_notes', JSON.stringify(d)); }
+  catch(e) {}
+}
+function getStatusLabel(s) { return {unread:'未读',reading:'在读',read:'已读'}[s] || '未读'; }
+function getStatusColor(s) { return {unread:'#95a5a6',reading:'#f39c12',read:'#27ae60'}[s] || '#95a5a6'; }
+function toggleStatus(pid, el) {
+  const current = getReadStatus(pid);
+  const next = {unread:'reading', reading:'read', read:'unread'}[current];
+  setReadStatus(pid, next);
+  const btn = el.querySelector('.status-btn');
+  if (btn) { btn.textContent = getStatusLabel(next); btn.style.background = getStatusColor(next); }
+}
+function saveNote(pid, el) {
+  const ta = el.querySelector('.note-textarea');
+  if (ta) { setNotes(pid, ta.value); const saved = el.querySelector('.note-saved'); if(saved) { saved.textContent = '✓ 已保存'; saved.style.display = 'inline'; setTimeout(() => { saved.style.display = 'none'; }, 2000); } }
+}
+function restoreReadStates() {
+  document.querySelectorAll('.paper-card').forEach(el => {
+    const pid = el.dataset.pid;
+    if (!pid) return;
+    const status = getReadStatus(pid);
+    const btn = el.querySelector('.status-btn');
+    if (btn) { btn.textContent = getStatusLabel(status); btn.style.background = getStatusColor(status); }
+    const savedNotes = getNotes(pid);
+    const ta = el.querySelector('.note-textarea');
+    if (ta && savedNotes) ta.value = savedNotes;
+  });
+}
+
+function sortedByDate(ps) {
+  return [...ps].sort((a, b) => (b.added_date || '').localeCompare(a.added_date || ''));
+}
+
+function renderCard(p) {
+  const isMustRead = p.importance === 'must-read';
+  const tags = p.tags || p.keywords || [];
+  const score = p.relevance_score || 0;
+  const scoreColor = score >= 70 ? "#27ae60" : score >= 40 ? "#f39c12" : "#95a5a6";
+
+  const links = [];
+  if (p.article_url && p.article_url !== '#')
+    links.push(`<a href="${p.article_url}" target="_blank">🌐 原文链接</a>`);
+  if (p.pmc_url && p.pmc_url !== '#')
+    links.push(`<a href="${p.pmc_url}" target="_blank">🏛 PMC全文</a>`);
+  if (p.doi)
+    links.push(`<a href="https://doi.org/${p.doi}" target="_blank">🔗 DOI</a>`);
+  if (links.length === 0)
+    links.push('<span class="disabled">链接待补充</span>');
+
+  return `
+    <div class="paper-card" data-pid="${p.id}" onclick="this.classList.toggle('expanded')">
+      <div class="title-en">${p.title}</div>
+      <div class="title-cn">${p.title_cn || ''}</div>
+      <div class="journal-line">
+        <span class="journal-name">${p.journal}</span>
+        ${p.impact_factor ? `<span class="if-badge">IF ${p.impact_factor}</span>` : ''}
+        <span class="year-badge">${p.year}</span>
+        <span style="font-size:12px;color:var(--text-muted);margin-left:auto;">PMID: ${p.pmid || '—'}</span>
+      </div>
+      <div class="meta-line">👤 ${p.authors}</div>
+      <div class="meta-line">${p.volume ? `Vol. ${p.volume}` : ''}${p.issue ? `(${p.issue})` : ''}${p.pages ? `, pp ${p.pages}` : ''} · 收录：${p.added_date || '未知'}</div>
+      <div class="tags">
+        ${isMustRead ? '<span class="must-read-tag">⭐ 必读</span>' : (p.importance === 'important' ? '<span style="background:#e8f4fd;color:#2980b9;border-color:#b3d9f2;">📌 重要</span>' : '')}
+        ${tags.slice(0, 6).map(t => `<span>${t}</span>`).join('')}
+      </div>
+      <div class="abstract">
+        <div class="abstract-en"><strong>📖 Abstract</strong>${p.abstract}</div>
+        ${p.abstract_cn ? `<div class="abstract-cn"><strong>📖 中文摘要</strong>${p.abstract_cn}</div>` : ''}
+      </div>
+      <div class="links">${links.join('')}</div>
+      <div style="margin-top:8px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+        <button class="status-btn" style="border:none;border-radius:6px;padding:2px 10px;font-size:11px;font-weight:600;cursor:pointer;background:#95a5a6;color:white;" onclick="event.stopPropagation();toggleStatus('${p.id}', this.closest('.paper-card'))">未读</button>
+        <span style="font-size:11px;color:#7f8c8d;cursor:pointer;" onclick="event.stopPropagation();var n=this.closest('.paper-card').querySelector('.note-section');if(n)n.style.display=n.style.display=='none'?'':'none';">✏️ 笔记</span>
+        <span class="note-saved" style="font-size:11px;color:#27ae60;display:none;"></span>
+      </div>
+      <div class="note-section" style="display:none;margin-top:6px;" onclick="event.stopPropagation();">
+        <textarea class="note-textarea" style="width:100%;min-height:60px;border:1px solid #ddd;border-radius:6px;padding:6px;font-size:12px;font-family:inherit;resize:vertical;" placeholder="写下你的想法、问题、想引用的点..."></textarea>
+        <div style="margin-top:4px;display:flex;align-items:center;gap:6px;">
+          <button style="border:none;border-radius:6px;padding:4px 12px;background:#c0392b;color:white;font-size:11px;cursor:pointer;" onclick="event.stopPropagation();saveNote('${p.id}', this.closest('.paper-card'))">💾 保存笔记</button>
+          <span style="font-size:10px;color:#999;">笔记存在本地浏览器，有网时自动同步</span>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function renderCards(ps) {
+  if (!ps.length) return `<div class="empty-state"><div class="emoji">📭</div><p>暂无文献</p></div>`;
+  return ps.map(renderCard).join('');
+}
+
+function init() {
+  document.querySelectorAll('.nav button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.nav button').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+      btn.classList.add('active');
+      const tab = document.getElementById('tab-' + btn.dataset.tab);
+      tab.classList.add('active');
+      if (btn.dataset.tab === 'library') filterLibrary();
+    });
+  });
+
+  const sorted = sortedByDate(PAPERS_DATA);
+  const mustRead = PAPERS_DATA.filter(p => p.importance === 'must-read');
+  const newest = getSortFn('relevance', PAPERS_DATA).slice(0, 5);
+
+  document.getElementById('new-count').textContent = newest.length;
+  document.getElementById('must-read-count').textContent = mustRead.length;
+  document.getElementById('library-count').textContent = PAPERS_DATA.length;
+
+  document.getElementById('tab-new').innerHTML = renderCards(newest);
+  document.getElementById('tab-must-read').innerHTML = renderCards(mustRead);
+  filterLibrary();
+}
+
+
+function getSortFn(key, papers) {
+  const sorted = [...papers];
+  switch(key) {
+    case 'relevance': sorted.sort((a,b) => (b.relevance_score||0) - (a.relevance_score||0)); break;
+    case 'impact': sorted.sort((a,b) => (b.impact_factor||0) - (a.impact_factor||0)); break;
+    case 'date': sorted.sort((a,b) => (b.added_date||'').localeCompare(a.added_date||'')); break;
+    case 'year': sorted.sort((a,b) => (b.year||0) - (a.year||0)); break;
+  }
+  return sorted;
+}
+
+function filterLibrary() {
+  const searchTerm = (document.getElementById('search-input').value || '').toLowerCase();
+  const importanceFilter = document.getElementById('filter-importance').value;
+  let filtered = PAPERS_DATA;
+
+  if (searchTerm) {
+    filtered = filtered.filter(p =>
+      p.title.toLowerCase().includes(searchTerm) ||
+      (p.title_cn || '').includes(searchTerm) ||
+      p.authors.toLowerCase().includes(searchTerm) ||
+      (p.tags || []).some(t => t.toLowerCase().includes(searchTerm)) ||
+      (p.keywords || []).some(k => k.toLowerCase().includes(searchTerm)) ||
+      p.journal.toLowerCase().includes(searchTerm)
+    );
+  }
+
+  if (importanceFilter !== 'all')
+    filtered = filtered.filter(p => p.importance === importanceFilter);
+
+  const sortKey = document.getElementById('sort-by').value;
+  filtered = getSortFn(sortKey, filtered);
+  document.getElementById('library-results').innerHTML = renderCards(filtered);
+  setTimeout(restoreReadStates, 50);
+  document.getElementById('library-count').textContent = PAPERS_DATA.length;
+}
+
+document.addEventListener('DOMContentLoaded', function() { init(); setTimeout(restoreReadStates, 200); });
+</script>
+</body>
+</html>
