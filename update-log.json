@@ -1,0 +1,69 @@
+{
+  "runs": [
+    {
+      "time": "2026-05-19T01:37:39.346Z",
+      "queries": {
+        "ruminant_liver_metabolism": {
+          "found": 15,
+          "newCandidates": 12,
+          "added": 12
+        },
+        "liver_immunity_herbivore": {
+          "found": 4,
+          "newCandidates": 4,
+          "added": 4
+        },
+        "single_cell_liver_comparative": {
+          "found": 15,
+          "newCandidates": 15,
+          "added": 14
+        }
+      },
+      "totalNew": 30,
+      "errors": []
+    },
+    {
+      "time": "2026-05-19T01:37:26.331Z",
+      "queries": {
+        "ruminant_liver_metabolism": {
+          "found": 15,
+          "newCandidates": 12,
+          "added": 10
+        }
+      },
+      "totalNew": 10,
+      "errors": []
+    },
+    {
+      "time": "2026-05-19T01:30:57.552Z",
+      "queries": {
+        "ruminant_liver_metabolism": {
+          "found": 0,
+          "added": 0
+        },
+        "liver_immunity_herbivore": {
+          "found": 0,
+          "added": 0
+        },
+        "single_cell_liver_comparative": {
+          "found": 0,
+          "added": 0
+        },
+        "bile_acid_liver_ruminant": {
+          "found": 0,
+          "added": 0
+        },
+        "spatial_transcriptomics_liver": {
+          "found": 0,
+          "added": 0
+        },
+        "liver_evolution_comparative": {
+          "found": 0,
+          "added": 0
+        }
+      },
+      "totalNew": 0,
+      "errors": []
+    }
+  ]
+}
