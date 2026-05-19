@@ -1,6 +1,58 @@
 {
   "runs": [
     {
+      "time": "2026-05-19T01:54:14.848Z",
+      "queries": {
+        "ruminant_liver_metabolism": {
+          "found": 15,
+          "newCandidates": 0,
+          "added": 0
+        },
+        "liver_immunity_herbivore": {
+          "found": 4,
+          "newCandidates": 0,
+          "added": 0
+        },
+        "single_cell_liver_comparative": {
+          "found": 15,
+          "newCandidates": 1,
+          "added": 1
+        },
+        "bile_acid_gut_liver_ruminant": {
+          "found": 15,
+          "newCandidates": 12,
+          "added": 12
+        },
+        "spatial_transcriptomics_liver": {
+          "found": 15,
+          "newCandidates": 14,
+          "added": 14
+        },
+        "liver_evolution_comparative": {
+          "found": 2,
+          "newCandidates": 2,
+          "added": 2
+        },
+        "CNS_liver_immune_evolution": {
+          "found": 1,
+          "newCandidates": 1,
+          "added": 1
+        },
+        "herbivore_liver_detox_adaptation": {
+          "found": 10,
+          "newCandidates": 8,
+          "added": 8
+        },
+        "bile_acid_evolution_comparative": {
+          "found": 10,
+          "newCandidates": 10,
+          "added": 10
+        }
+      },
+      "totalNew": 48,
+      "errors": []
+    },
+    {
       "time": "2026-05-19T01:37:39.346Z",
       "queries": {
         "ruminant_liver_metabolism": {

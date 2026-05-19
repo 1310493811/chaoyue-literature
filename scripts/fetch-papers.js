@@ -56,6 +56,27 @@ const SEARCH_QUERIES = [
     max: 15,
     tags: ["liver", "evolution", "comparative", "cross-species"],
     importance: "must-read"
+  },
+  {
+    name: "CNS_liver_immune_evolution",
+    query: '(liver[Title/Abstract] OR hepatic[Title/Abstract]) AND (immun[Title/Abstract] OR macrophage[Title/Abstract] OR "Kupffer"[Title/Abstract]) AND (evolution[Title/Abstract] OR comparative[Title/Abstract] OR cross-species[Title/Abstract] OR mammal[Title/Abstract]) AND ("Nature"[Journal] OR "Science"[Journal] OR "Cell"[Journal] OR "PNAS"[Journal] OR "Cell Reports"[Journal] OR "Nature Communications"[Journal] OR "Science Advances"[Journal]) AND ("2021"[Date - Publication] : "2026"[Date - Publication])',
+    max: 10,
+    tags: ["CNS", "liver", "immunity", "evolution"],
+    importance: "must-read"
+  },
+  {
+    name: "herbivore_liver_detox_adaptation",
+    query: '(herbivor[Title/Abstract] OR ruminant[Title/Abstract] OR goat[Title/Abstract] OR sheep[Title/Abstract] OR bovine[Title/Abstract]) AND liver[Title/Abstract] AND (detoxif[Title/Abstract] OR xenobiotic[Title/Abstract] OR "plant secondary" OR "plant toxin" OR CYP[Title/Abstract] OR adaptation[Title/Abstract]) AND ("2020"[Date - Publication] : "2026"[Date - Publication])',
+    max: 10,
+    tags: ["liver", "detoxification", "herbivore", "adaptation"],
+    importance: "important"
+  },
+  {
+    name: "bile_acid_evolution_comparative",
+    query: '("bile acid" OR "gut-liver axis" OR "gut microbiota") AND (evolut[Title/Abstract] OR compar[Title/Abstract] OR cross-species[Title/Abstract] OR herbivor[Title/Abstract] OR mammal[Title/Abstract]) AND ("2020"[Date - Publication] : "2026"[Date - Publication])',
+    max: 10,
+    tags: ["bile acid", "evolution", "gut-liver axis", "comparative"],
+    importance: "must-read"
   }
 ];
 
