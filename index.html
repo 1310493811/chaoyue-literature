@@ -240,6 +240,7 @@ function renderStats() {
 }
 
 function drawBubbleChart(canvasId, data) {
+  // Replace bubble chart with clear non-overlapping horizontal bar chart
   const canvas = document.getElementById(canvasId);
   if (!canvas) return;
   const ctx = canvas.getContext('2d');
@@ -249,36 +250,56 @@ function drawBubbleChart(canvasId, data) {
   const w = canvas.offsetWidth, h = canvas.offsetHeight;
   ctx.clearRect(0,0,w,h);
 
+  // Sort by count descending
+  const sorted = [...data].sort((a,b)=>b.count-a.count);
   const maxCount = Math.max(...data.map(d=>d.count),1);
-  const minYear = Math.min(...data.map(d=>d.avgYear));
-  const maxYear = Math.max(...data.map(d=>d.avgYear));
-  const pad = {l:40, r:20, t:20, b:30};
+  const n = sorted.length;
+  const barH = Math.min(28, (h-40)/n - 4);
+  const gap = 4;
+  const leftPad = 100, rightPad = 80;
+  const chartW = w - leftPad - rightPad;
+  const startY = 16;
 
-  // Axes
-  ctx.strokeStyle = 'rgba(255,255,255,0.1)'; ctx.lineWidth=1;
-  ctx.beginPath(); ctx.moveTo(pad.l,pad.t); ctx.lineTo(pad.l,h-pad.b); ctx.lineTo(w-pad.r,h-pad.b); ctx.stroke();
+  // Color map
+  const colors = ['#e8c547','#e94560','#5b9cf5','#00d4aa','#a78bfa','#f59e0b','#ec4899','#14b8a6',
+    '#6366f1','#f43f5e','#8b5cf6','#22c55e'];
 
-  // Labels
-  ctx.fillStyle='#9498b0'; ctx.font='10px Inter,sans-serif'; ctx.textAlign='center';
-  ctx.fillText('论文数量 →', w/2, h-5);
-  ctx.save(); ctx.translate(10,h/2); ctx.rotate(-Math.PI/2); ctx.fillText('平均年份 →',0,0); ctx.restore();
+  sorted.forEach((d,i) => {
+    const y = startY + i*(barH+gap);
+    const bw = Math.max(10, (d.count/maxCount)*chartW);
+    const mustRatio = d.count>0 ? d.mustRead/d.count : 0;
 
-  const colors = ['rgba(232,197,71,0.6)','rgba(233,69,96,0.5)','rgba(91,156,245,0.5)',
-    'rgba(0,212,170,0.5)','rgba(167,139,250,0.5)','rgba(245,158,11,0.5)','rgba(236,72,153,0.5)'];
+    // Bar background (total)
+    ctx.fillStyle = 'rgba(255,255,255,0.06)';
+    ctx.fillRect(leftPad, y, chartW, barH + 4);
 
-  data.forEach((d,i) => {
-    const x = pad.l + (d.count/maxCount)*(w-pad.l-pad.r-80) + 20;
-    const y = pad.t + (1-(d.avgYear-minYear)/(maxYear-minYear||1))*(h-pad.t-pad.b-40) + 10;
-    const r = Math.max(8, Math.min(40, 15+(d.mustRead/d.count)*40));
-    ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2);
-    ctx.fillStyle = colors[i%colors.length]; ctx.fill();
-    ctx.strokeStyle='rgba(255,255,255,0.3)'; ctx.lineWidth=1; ctx.stroke();
+    // Filled portion
+    const gradient = ctx.createLinearGradient(leftPad, 0, leftPad+bw, 0);
+    gradient.addColorStop(0, colors[i%colors.length]);
+    gradient.addColorStop(1, colors[i%colors.length].replace(')','0.4)'));
+    ctx.fillStyle = gradient;
+    ctx.fillRect(leftPad, y+2, bw, barH);
 
-    ctx.fillStyle='#e0e4f0'; ctx.font='10px Inter,sans-serif'; ctx.textAlign='center';
-    ctx.fillText(d.tag, x, y+r+14);
-    ctx.fillStyle='#9498b0'; ctx.font='9px Inter,sans-serif';
-    ctx.fillText(d.count+'篇', x, y+r+26);
+    // Must-read indicator
+    if (mustRatio>0) {
+      ctx.fillStyle = 'rgba(233,69,96,0.7)';
+      ctx.fillRect(leftPad, y+2, bw*mustRatio, barH);
+    }
+
+    // Tag label (left)
+    ctx.fillStyle='#e0e4f0'; ctx.font='11px Inter,Noto Sans SC,sans-serif';
+    ctx.textAlign='right'; ctx.fillText(d.tag, leftPad-6, y+barH/2+4);
+
+    // Count label (right of bar)
+    const cntText = d.count+'篇'+(mustRatio>0?' (必读'+Math.round(mustRatio*100)+'%)':'');
+    ctx.fillStyle='#9498b0'; ctx.font='10px Inter,sans-serif';
+    ctx.textAlign='left'; ctx.fillText(cntText, leftPad+bw+6, y+barH/2+4);
   });
+
+  // Legend
+  ctx.fillStyle='rgba(233,69,96,0.7)'; ctx.fillRect(leftPad, startY+n*(barH+gap)+12, 10, 10);
+  ctx.fillStyle='#9498b0'; ctx.font='10px Inter,sans-serif'; ctx.textAlign='left';
+  ctx.fillText('= 必读占比', leftPad+14, startY+n*(barH+gap)+22);
 }
 
 function drawTimeline(canvasId, data) {
@@ -334,7 +355,7 @@ function drawRadar(canvasId, data) {
   const w = canvas.offsetWidth, h = canvas.offsetHeight;
   ctx.clearRect(0,0,w,h);
 
-  const cx = w/2, cy = h/2, maxR = Math.min(w,h)*0.35;
+  const cx = w/2, cy = h/2+8, maxR = Math.min(w,h)*0.28;
   const n = data.length;
   const maxVal = Math.max(...data.map(d=>d.value),1);
 
@@ -356,8 +377,12 @@ function drawRadar(canvasId, data) {
     const angle = (Math.PI*2/n)*i - Math.PI/2;
     ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(cx+maxR*Math.cos(angle),cy+maxR*Math.sin(angle));
     ctx.strokeStyle='rgba(255,255,255,0.1)'; ctx.stroke();
-    ctx.fillStyle='#9498b0'; ctx.font='11px Inter,Noto Sans SC,sans-serif'; ctx.textAlign='center';
-    const lx = cx + (maxR+20)*Math.cos(angle), ly = cy + (maxR+20)*Math.sin(angle)+4;
+    ctx.fillStyle='#9498b0'; ctx.font='11px Inter,Noto Sans SC,sans-serif';
+    const lx = cx + (maxR+30)*Math.cos(angle), ly = cy + (maxR+30)*Math.sin(angle)+4;
+    // Adjust text alignment per quadrant to prevent cutoff
+    if (lx > cx+10) ctx.textAlign='left';
+    else if (lx < cx-10) ctx.textAlign='right';
+    else ctx.textAlign='center';
     ctx.fillText(data[i].label, lx, ly);
   }
 
@@ -420,8 +445,9 @@ function drawBarChart(canvasId, data) {
     ctx.fillRect(100, y, bw, barH);
     ctx.fillStyle='#e0e4f0'; ctx.font='12px Inter,sans-serif'; ctx.textAlign='right';
     ctx.fillText(d.label, 92, y+barH-8);
-    ctx.fillStyle='#9498b0'; ctx.textAlign='left';
-    ctx.fillText(d.value+'篇 ('+Math.round(d.value/data.reduce((s,x)=>s+x.value,0)*100)+'%)', 104+bw, y+barH-8);
+    ctx.fillStyle='#e0e4f0'; ctx.textAlign='left'; ctx.font='12px Inter,sans-serif';
+    const pct = data.reduce((s,x)=>s+x.value,0);
+    ctx.fillText(d.value+'篇 ('+(pct>0?Math.round(d.value/pct*100):0)+'%)', 104+bw+6, y+barH-8);
   });
 }
 
@@ -528,7 +554,7 @@ function renderDashboard() {
   document.getElementById('page-dashboard').innerHTML = `
     ${renderStats()}
     <div class="charts-row">
-      <div class="g-card chart-box"><h3>🔬 研究热点分布</h3><canvas id="chart-bubble"></canvas></div>
+      <div class="g-card chart-box"><h3>🔬 研究方向分布</h3><canvas id="chart-bubble"></canvas></div>
       <div class="g-card chart-box"><h3>📅 出版时间线</h3><canvas id="chart-timeline"></canvas></div>
     </div>
     <div class="g-card"><h3 style="margin-bottom:12px;font-size:15px;color:var(--text2);">🆕 最近添加</h3>${recent.map(p=>renderPaperCard(p)).join('')}</div>`;
