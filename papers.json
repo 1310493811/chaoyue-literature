@@ -1,6 +1,79 @@
 {
   "papers": [
     {
+      "id": "39769152",
+      "title": "Interaction Between Liver Metabolism and Gut Short-Chain Fatty Acids via Liver-Gut Axis Affects Body Weight in Lambs.",
+      "authors": "Wang H, Zhan J, Zhao S, Jiang H, Jia H, Pan Y, et al.",
+      "journal": "Int J Mol Sci",
+      "year": 2024,
+      "volume": "25",
+      "issue": "24",
+      "pages": "doi: 10.3390/ijms252413386",
+      "doi": "10.3390/ijms252413386",
+      "pmid": "39769152",
+      "abstract": "",
+      "keywords": [],
+      "pdf_url": "#",
+      "article_url": "https://pubmed.ncbi.nlm.nih.gov/39769152/",
+      "pmc_url": "#",
+      "tags": [
+        "liver metabolism",
+        "ruminant"
+      ],
+      "importance": "important",
+      "added_date": "2026-05-25"
+    },
+    {
+      "id": "35449433",
+      "title": "Comparative analysis of long noncoding RNA and mRNA expression provides insights into adaptation to hypoxia in Tibetan sheep.",
+      "authors": "Wang F, Liu J, Zeng Q, Zhuoga D",
+      "journal": "Sci Rep",
+      "year": 2022,
+      "volume": "12",
+      "issue": "1",
+      "pages": "6597",
+      "doi": "10.1038/s41598-022-08625-y",
+      "pmid": "35449433",
+      "abstract": "",
+      "keywords": [],
+      "pdf_url": "#",
+      "article_url": "https://pubmed.ncbi.nlm.nih.gov/35449433/",
+      "pmc_url": "#",
+      "tags": [
+        "liver",
+        "detoxification",
+        "herbivore",
+        "adaptation"
+      ],
+      "importance": "important",
+      "added_date": "2026-05-25"
+    },
+    {
+      "id": "34063948",
+      "title": "Tissue-Specific Microparticles Improve Organoid Microenvironment for Efficient Maturation of Pluripotent Stem-Cell-Derived Hepatocytes.",
+      "authors": "Zahmatkesh E, Ghanian MH, Zarkesh I, Farzaneh Z, Halvaei M, Heydari Z, et al.",
+      "journal": "Cells",
+      "year": 2021,
+      "volume": "10",
+      "issue": "6",
+      "pages": "doi: 10.3390/cells10061274",
+      "doi": "10.3390/cells10061274",
+      "pmid": "34063948",
+      "abstract": "",
+      "keywords": [],
+      "pdf_url": "#",
+      "article_url": "https://pubmed.ncbi.nlm.nih.gov/34063948/",
+      "pmc_url": "#",
+      "tags": [
+        "liver",
+        "detoxification",
+        "herbivore",
+        "adaptation"
+      ],
+      "importance": "important",
+      "added_date": "2026-05-25"
+    },
+    {
       "id": "38702773",
       "title": "Single-cell transcriptome analysis reveals subtype-specific clonal evolution and microenvironmental changes in liver metastasis of pancreatic adenocarcinoma and their clinical implications.",
       "authors": "Park JK, Jeong HO, Kim H, Choi JH, Lee EM, Kim S, et al.",
@@ -2391,7 +2464,7 @@
       "title_cn": "一种新型猪源冠状病毒的分离与鉴定：跨种传播与肝脏嗜性"
     }
   ],
-  "last_updated": "2026-05-19",
-  "total_count": 97,
+  "last_updated": "2026-05-25",
+  "total_count": 100,
   "must_read_count": 67
 }
