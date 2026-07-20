@@ -3,17 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="曹超越科研动态证据库：连接科学问题、可检验主张、文献证据、证据缺口与实验决策。">
+  <meta name="description" content="曹超越科研动态证据库：连接科学问题、可检验主张、文献证据、机制图谱、论文结构、证据缺口与实验决策。">
   <meta name="theme-color" content="#07101e">
   <title>曹超越科研动态证据库</title>
   <link rel="stylesheet" href="assets/evidence-v3.css">
+  <link rel="stylesheet" href="assets/evidence-v3-1.css">
 </head>
 <body>
   <div class="app">
     <aside class="sidebar" aria-label="主导航">
       <div class="brand">
         <strong>科研动态证据库</strong>
-        <span>科学问题 → 主张 → 证据 → 缺口 → 实验决策</span>
+        <span>科学问题 → 主张 → 证据 → 图谱 → 论文 → 实验决策</span>
       </div>
 
       <div class="project-switch">
@@ -26,13 +27,16 @@
         <button class="nav-btn" data-page="questions" onclick="go('questions')" type="button"><span>？ 科学问题</span><b id="nQuestions">0</b></button>
         <button class="nav-btn" data-page="claims" onclick="go('claims')" type="button"><span>◆ 主张与证据</span><b id="nClaims">0</b></button>
         <button class="nav-btn" data-page="papers" onclick="go('papers')" type="button"><span>▤ 文献库</span><b id="nPapers">0</b></button>
+        <button class="nav-btn" data-page="intake" onclick="go('intake')" type="button"><span>⇩ 结构化导入</span></button>
+        <button class="nav-btn" data-page="knowledge" onclick="go('knowledge')" type="button"><span>⌘ 机制知识图谱</span><b id="nGraph">0</b></button>
+        <button class="nav-btn" data-page="figures" onclick="go('figures')" type="button"><span>▦ 论文与 Figure</span><b id="nFigures">0</b></button>
         <button class="nav-btn" data-page="gaps" onclick="go('gaps')" type="button"><span>△ 证据缺口</span><b id="nGaps">0</b></button>
         <button class="nav-btn" data-page="experiments" onclick="go('experiments')" type="button"><span>⚗ 实验与决策</span><b id="nExperiments">0</b></button>
         <button class="nav-btn" data-page="maintenance" onclick="go('maintenance')" type="button"><span>⚙ 数据维护</span></button>
       </nav>
 
       <div class="side-foot">
-        <div>动态证据库 v3</div>
+        <div>动态证据库 v3.1</div>
         <div id="lastSaved">浏览器本地工作区</div>
       </div>
     </aside>
@@ -42,6 +46,9 @@
       <section class="page" id="page-questions" aria-label="科学问题"></section>
       <section class="page" id="page-claims" aria-label="主张与证据"></section>
       <section class="page" id="page-papers" aria-label="文献库"></section>
+      <section class="page" id="page-intake" aria-label="结构化证据导入"></section>
+      <section class="page" id="page-knowledge" aria-label="机制知识图谱"></section>
+      <section class="page" id="page-figures" aria-label="论文与 Figure 规划"></section>
       <section class="page" id="page-gaps" aria-label="证据缺口"></section>
       <section class="page" id="page-experiments" aria-label="实验与决策"></section>
       <section class="page" id="page-maintenance" aria-label="数据维护"></section>
@@ -63,6 +70,7 @@
   <script src="assets/evidence-core-v3.js"></script>
   <script src="assets/evidence-pages-v3-1.js"></script>
   <script src="assets/evidence-pages-v3-2.js"></script>
+  <script src="assets/evidence-pages-v3-4.js"></script>
   <script src="assets/evidence-pages-v3-3.js"></script>
 </body>
 </html>
