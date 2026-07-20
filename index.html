@@ -12,16 +12,8 @@
 <body>
   <div class="app">
     <aside class="sidebar" aria-label="主导航">
-      <div class="brand">
-        <strong>科研动态证据库</strong>
-        <span>科学问题 → 主张 → 证据 → 图谱 → 论文 → 实验决策</span>
-      </div>
-
-      <div class="project-switch">
-        <label for="projectSelect">当前课题</label>
-        <select id="projectSelect" onchange="switchProject(this.value)" aria-label="切换科研项目"></select>
-      </div>
-
+      <div class="brand"><strong>科研动态证据库</strong><span>科学问题 → 主张 → 证据 → 图谱 → 论文 → 实验决策</span></div>
+      <div class="project-switch"><label for="projectSelect">当前课题</label><select id="projectSelect" onchange="switchProject(this.value)"></select></div>
       <nav>
         <button class="nav-btn active" data-page="dashboard" onclick="go('dashboard')" type="button"><span>◈ 证据驾驶舱</span></button>
         <button class="nav-btn" data-page="questions" onclick="go('questions')" type="button"><span>？ 科学问题</span><b id="nQuestions">0</b></button>
@@ -34,43 +26,19 @@
         <button class="nav-btn" data-page="experiments" onclick="go('experiments')" type="button"><span>⚗ 实验与决策</span><b id="nExperiments">0</b></button>
         <button class="nav-btn" data-page="maintenance" onclick="go('maintenance')" type="button"><span>⚙ 数据维护</span></button>
       </nav>
-
-      <div class="side-foot">
-        <div>动态证据库 v3.1</div>
-        <div id="lastSaved">浏览器本地工作区</div>
-      </div>
+      <div class="side-foot"><div>动态证据库 v3.5</div><div id="lastSaved">浏览器本地工作区</div></div>
     </aside>
-
-    <main class="main" id="mainContent">
-      <section class="page active" id="page-dashboard" aria-label="证据驾驶舱"></section>
-      <section class="page" id="page-questions" aria-label="科学问题"></section>
-      <section class="page" id="page-claims" aria-label="主张与证据"></section>
-      <section class="page" id="page-papers" aria-label="文献库"></section>
-      <section class="page" id="page-intake" aria-label="结构化证据导入"></section>
-      <section class="page" id="page-knowledge" aria-label="机制知识图谱"></section>
-      <section class="page" id="page-figures" aria-label="论文与 Figure 规划"></section>
-      <section class="page" id="page-gaps" aria-label="证据缺口"></section>
-      <section class="page" id="page-experiments" aria-label="实验与决策"></section>
-      <section class="page" id="page-maintenance" aria-label="数据维护"></section>
+    <main class="main">
+      <section class="page active" id="page-dashboard"></section><section class="page" id="page-questions"></section><section class="page" id="page-claims"></section><section class="page" id="page-papers"></section><section class="page" id="page-intake"></section><section class="page" id="page-knowledge"></section><section class="page" id="page-figures"></section><section class="page" id="page-gaps"></section><section class="page" id="page-experiments"></section><section class="page" id="page-maintenance"></section>
     </main>
   </div>
-
-  <div class="modal-wrap" id="modalWrap" role="dialog" aria-modal="true" aria-label="编辑窗口" onclick="if(event.target===this)closeModal()">
-    <div class="modal" id="modal"></div>
-  </div>
-
+  <div class="modal-wrap" id="modalWrap" onclick="if(event.target===this)closeModal()"><div class="modal" id="modal"></div></div>
   <input id="importFile" class="hidden" type="file" accept="application/json,.json" onchange="importWorkspace(event)">
-
-  <noscript>
-    <div style="margin:40px;padding:20px;background:#fff3cd;color:#5f4b00;border-radius:10px;">
-      此工作台需要启用 JavaScript 才能运行。
-    </div>
-  </noscript>
-
   <script src="assets/evidence-core-v3.js"></script>
   <script src="assets/evidence-pages-v3-1.js"></script>
   <script src="assets/evidence-pages-v3-2.js"></script>
   <script src="assets/evidence-pages-v3-4.js"></script>
+  <script src="assets/evidence-pages-v3-5.js"></script>
   <script src="assets/evidence-pages-v3-3.js"></script>
 </body>
 </html>
